@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project List</title>
+</head>
+<body>
+    <h1>Project List</h1>
+    <ul id="project-list"></ul>
+
+    <script>
+        // Wstawienie kodu JavaScript, który będzie pobierał dane z serwera i wyświetlał je na stronie
+        // Kod JavaScript można umieścić tutaj lub zaimportować zewnętrzny plik JS
+
+        // Pobranie referencji do listy projektów
+        const projectList = document.getElementById('project-list');
+
+        // Wywołanie skryptu PHP za pomocą fetch API
+        fetch('/get_projects.php')
+            .then(response => response.json())
+            .then(projects => {
+                // Iteracja przez listę projektów i utworzenie elementów listy
+                projects.forEach(project => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${project.title}: ${project.description}`;
+                    projectList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching projects:', error));
+
+    </script>
+</body>
+</html>

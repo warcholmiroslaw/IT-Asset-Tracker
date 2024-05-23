@@ -15,14 +15,13 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    height: 35vh;
+    height: auto;
     margin-top: 1%;
-    /* text-shadow: 2px 2px 10px #000; */
 }
 
-/* .search-options h1{
-    text-shadow: 2px 2px 10px #000;
-} */
+#menu-options{
+    display: block;
+}
 
 .device-list{
     margin-top: 3%;
@@ -30,25 +29,20 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    /* height: 55vh; */
     width: 100%;
     overflow-x: hidden;
 }
 
-img{
-    margin-right: 10px;
-}
+
 
 .device{
     display: flex;
     background-color: white;
     color: black;
     margin: 10px;
-    border-radius: 20px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 0px 15px;
     height: 50px;
-    /* justify-content: space-around; */
-    /* align-items: center; */
     width: 30%;
     box-sizing: border-box;
     transform: translateX(300%);
@@ -59,22 +53,84 @@ img{
     transform: translateX(0);
 }
 
+
 .device:only-child:not(:first-child):not(:last-child) {
     transform: scale(0.2); /* Zmniejszenie wielkości o 20% */
 } 
-.main-filter, .search-box, .add-device{
+.search-box, .add-device{
     display: flex;
     background-color: white;
     color:black;
     margin: 10px;
     width: 30%;
     height: 50px;
-    border-radius: 20px;
+    border-radius: 10px;
     text-align: left;
     justify-content: left;
     padding: 10px;
     box-sizing: border-box;
     align-items: center;
+}
+
+.dropDown-btn {
+    display: block;
+    color:black;
+    margin: 10px;
+    width: 30%;
+    height: 50px;
+    border-radius: 10px;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropDown-list {
+    width: 30%;
+    margin: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    opacity: 0.2;
+    transform: scale(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: none;
+    visibility: hidden;
+}
+
+.dropDown-list.open {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    display: block;
+}
+
+.dropDown-list .item {
+    padding: 8px,  0px;
+    padding-left: 10%;
+    cursor: pointer;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.dropDown-list .item:hover {
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+.dropDown-list .item.active {
+    font-size: 1.20em;
 }
 
 .button-device,
@@ -83,8 +139,7 @@ img{
     display: flex;
     background-color: white;
     color: black;
-    border-radius: 20px;
-    padding: 10px;
+    border-radius: 10px;
     align-items: center;
     box-sizing: border-box;
     border: 0;
@@ -94,15 +149,35 @@ img{
     min-width: 80px;
 
 }
-.button-edit{
-    margin-left: auto;
-    margin-right: 0;
+
+.button-device {
+    margin-right: 30%;
+    margin-left: 0;
 }
 
+
+img {
+    box-sizing: border-box;
+    max-width: 100%;
+    height:fit-content;
+    width: fit-content;
+    display: block;
+    object-fit: cover;
+    padding: 10px 10px;
+}
+
+#search {
+    border: none;
+}
+
+#search:focus{
+    outline: 0;
+    border-bottom: #054A7B;
+}
 @media screen and (max-width: 900px) {
-    .main-filter,
+    /* .dropDownMenu,
     .search-box,
-    .add-device,
+    .add-device, */
     .device{
         width: 60%;
     }

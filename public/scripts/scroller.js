@@ -15,7 +15,6 @@ function checkBoxes() {
 
         if (boxTop < triggerBottom){
             box.classList.add('show');
-            console.log("dddupa");
         }
         else{
             box.classList.remove('show');

@@ -120,3 +120,14 @@ h1{
 }
 
 }
+
+
+.button-device img,
+.button-edit img,
+.button-remove img {
+    max-height: 80%; /* Maksymalna wysokość obrazu równa wysokości przycisku */
+    height: fit-content;
+    width: auto; /* Automatyczne skalowanie szerokości */
+    display: block; /* Zapobiega dodaniu dodatkowej przestrzeni poniżej obrazu */
+    margin-right: 5px; /* Dodatkowy margines z prawej strony obrazu */
+}

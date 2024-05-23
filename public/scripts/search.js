@@ -1,0 +1,115 @@
+var dropDownBtn = document.querySelector('.dropDown-btn')
+var dropDownMenu = document.querySelector('.dropDown-list')
+var items = document.querySelectorAll('.item')
+var currentlySelected = document.querySelector('.item.active')
+var navText = document.getElementById('selected-item')
+var devicesContainer = document.querySelector(".device-list")
+var searchBox = document.getElementById('search')
+
+
+
+dropDownBtn.addEventListener('click', toggleMenu)
+
+items.forEach(item => item.addEventListener('click',itemClickHandler))
+
+function toggleMenu() {
+    dropDownMenu.classList.toggle('open')
+}
+
+
+function closeMenu() {
+    dropDownMenu.classList.remove('open')
+}
+
+
+async function itemClickHandler(e) {
+    navText.innerHTML = e.target.textContent;
+    currentlySelected.classList.remove('active')
+    e.target.classList.add('active')
+    currentlySelected = document.querySelector('.item.active')
+
+    const data = {type: e.target.textContent}
+
+    const response = await fetch("/search", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+
+    const devices = await response.json();
+    console.log(devices);
+
+    devicesContainer.innerHTML = "";
+    devices.forEach(device => {
+        displayDevice(device);
+    })
+
+
+
+    closeMenu()
+}
+
+searchBox.addEventListener("keyup", async function(e) {
+    if(e.key !== 'Enter') {
+        return;
+    }
+
+    e.preventDefault();
+
+    const data = {search: this.value};
+
+    const response = await fetch("/search", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    const devices = await response.json();
+    console.log(devices);
+
+    devicesContainer.innerHTML = "";
+    devices.forEach(device => {
+        displayDevice(device);
+    })
+
+    searchBox.value = '';
+});
+
+
+function chooseImage(deviceType) {
+
+    switch(deviceType) {
+        case 'Laptop':
+            return 'images/icons/laptop.png';
+        case 'Desktop':
+            return 'images/icons/desktop.png';
+        case 'Smartphone':
+            return 'images/icons/phone.png';
+        default:
+
+    }
+}
+
+
+function displayDevice(device) {
+    const template = document.querySelector("#nowaNazwa");
+
+    const clone = template.content.cloneNode(true);
+    const icon = clone.querySelector("img");
+    icon.src = chooseImage(device.type);
+    
+    const description = clone.querySelector("p");
+    description.innerHTML = device.serial_number;
+
+    devicesContainer.appendChild(clone);
+
+}

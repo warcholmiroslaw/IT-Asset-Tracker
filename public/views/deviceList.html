@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/css/deviceList.css">  
     
-    <script defer src="public/scripts/scroller.js"></script>
+    <script src="public/scripts/scroller.js" defer></script>
+    <script src="public/scripts/search.js" defer></script>
+    <script src="public/scripts/addDevice.js" defer></script>
     <title>All devices</title>
 </head>
 <body>
@@ -14,14 +16,24 @@
 
         <h1>Device list</h1>
 
-        <div class = "main-filter">
-            <img src="images/icons/dropDownArrow.png" alt="Drop down arrow icon">
-            All devices
-        </div>
+            <div class = "dropDown-btn">
+                <span id = "selected-item">View by</span>
+                <span>
+                    <img src="images/icons/dropDownArrow.png" alt = "Dropdown icon">
+                </span>
+            </div>
+
+            <div class = "dropDown-list">
+                <div class = "item active">All devices</div>
+                <div class = "item">Laptop</div>
+                <div class = "item">Desktop</div>
+                <div class = "item">Smartphone</div>
+            </div>
+
 
         <div class = "search-box">
             <img src="images/icons/search.png" alt="Search icon">
-            Search
+            <input id="search" type="text" name="search" placeholder="Search by serial number">
         </div>
 
         <div class="add-device">
@@ -30,196 +42,46 @@
         </div>
 
     </div>
-    
+
+    <template id="nowaNazwa">
+        <div class = "device show">
+            <button class = "button-device">
+               <img src="">
+               <p></p>
+            </button>
+
+            <button class = "button-edit">
+                <img src="images/icons/edit.png" alt="edit icon">
+                Edit
+            </button>
+
+            <button class = "button-remove">
+                <img src="images/icons/remove.png" alt="remove icon">
+                delete
+            </button>
+
+        </div>
+    </template>
     <div class = "device-list">
 
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
+        <?php foreach($items as $device): ?>
+            <div class = "device">
+                <button class = "button-device">
+                    <img src="<?php echo $device-> getImage(); ?>" alt="device type icon">
+                    <?= $device->getSerialNumber(); ?>
+                </button>
 
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
+                <button class = "button-edit">
+                    <img src="images/icons/edit.png" alt="edit icon">
+                    Edit
+                </button>
 
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
-
-        <div class = "device">
-            <button class = "button-device">
-                <img src="images/icons/phone.png" alt="phone icon">
-                Device
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-        </div>
+                <button class = "button-remove">
+                    <img src="images/icons/remove.png" alt="remove icon">
+                    delete
+                </button>
+            </div>
+        <?php endforeach; ?>
     </div>
 
     <!-- <script defer>
@@ -229,7 +91,6 @@
 
         window.addEventListener('scroll', checkBoxes);
         checkBoxes(); // Wywołanie funkcji od razu po załadowaniu skryptu
-    </script>
-     -->
+    </script> -->
 </body>
 </html>
