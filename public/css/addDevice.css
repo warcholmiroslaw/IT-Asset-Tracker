@@ -1,0 +1,113 @@
+body{
+    background: linear-gradient(to bottom, #1A254F, #054A7B);
+    background-size: cover;
+    background-attachment: fixed;
+    min-width: 900px;
+    color: white;
+    font-size: larger;
+    /* font-weight: bold; */
+    font-family: Impact, fantasy;
+
+}
+
+.title {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
+img {
+    height: 100%;
+    width: auto;
+    display: flex;
+    object-fit: fill;
+}
+
+.device-type {
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+.device-type h3 {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    /* height: auto; */
+    justify-content: center;
+    align-items: center;
+    margin: 0 30vw;
+}
+
+.image-box {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    background-color: blue;
+    height: 100px;
+    width: auto; 
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+    margin: 10px;
+    border-radius: 10px;
+    opacity: 0.4;
+}
+
+.device-properties {
+    margin-top: 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+
+.set, .submitForm{
+    display: flex;
+    background-color: white;
+    color: black;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 0px 15px;
+    height: 50px;
+    width: 25%;
+    box-sizing: border-box;
+}
+
+input {
+    border: none;
+    width: 100%;
+}
+
+input:focus{
+    outline: 0;
+    border-bottom: #054A7B;
+}
+
+.image-box.show {
+    opacity: 1;
+}
+
+.submitForm {
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    opacity: 0.2;
+}
+
+.submitForm.correct {
+    opacity: 1;
+}

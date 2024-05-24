@@ -24,19 +24,19 @@ class EquipmentController extends AppController {
         return $this->render('addDevice');
     }
 
-    // public function project() {
-    //     if($this->isPost()) {
+    public function saveDevice() {
+        if($this->isPost()) {
 
-    //         $this->projectRepository->saveProject($_POST);
+            $this->projectRepository->saveDevice($_POST);
 
-    //         $url = "http://$_SERVER[HTTP_HOST]";
-    //         header("Location: {$url}/dashboard");
-    //         return;
-    //     }
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/devicelist");
+            return;
+        }
 
-    //     return $this->render('add-project', ["title"=> "ADD PROJECT | WDPAI"]);
+        return $this->render('add-project', ["title"=> "ADD PROJECT | WDPAI"]);
 
-    // }
+    }
 
     public function search() {
         $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
@@ -61,32 +61,3 @@ class EquipmentController extends AppController {
     }
 
 }
-//     public function search() {
-//         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-//         $uriSegments = explode('/', $uri);
-    
-//         // Sprawdzanie, czy URL zawiera wystarczająco dużo segmentów
-//         if (count($uriSegments) < 3) {
-//             header('Content-type: application/json');
-//             http_response_code(400);
-//             echo json_encode(['error' => 'Invalid URL']);
-//             return;
-//         }
-    
-//         // Wykrywanie rodzaju wyszukiwania
-//         $searchType = $uriSegments[1];
-//         $searchValue = $uriSegments[2];
-    
-//         header('Content-type: application/json');
-//         http_response_code(200);
-    
-//         if ($searchType === 'category') {
-//             echo json_encode($this->projectRepository->getEquipmentByType($searchValue));
-//         } elseif ($searchType === 'serialNumber') {
-//             echo json_encode($this->projectRepository->getEquipmentBySerialNumber($searchValue));
-//         } else {
-//             http_response_code(400);
-//             echo json_encode(['error' => 'Unknown search type']);
-//         }
-//     }
-// }

@@ -3,9 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="public/css/addDevice.css"> 
+    <script defer src="public/scripts/addDeviceForm.js" defer></script>
+    <title>Add device</title>
 </head>
 <body>
-    Udalo sie
+    <div class = 'title'>
+        <h1>Add Device</h1>
+    </div>
+
+    <div class = 'device-type'>
+
+        <h3>Select device type</h3>
+
+        <div class = 'images-container'>
+            <div class="image-box Desktop show">
+                <img id = "desktop" src="images/devices/desktop.jpg" alt="Desktop">
+            </div>
+            <div class="image-box Laptop">
+                <img id = "laptop" src="images/devices/laptop.jpg" alt="Laptop">
+            </div>
+            <div class="image-box Smartphone">
+                <img id="phone" src="images/devices/phone.jpg" alt="Phone">
+            </div>
+        </div>
+
+    </div>
+
+    <form action="/saveDevice" method="POST" class = 'device-properties'>
+
+        <input type="hidden" id="type" name="type" value = 'Desktop'>
+
+        <div class = 'set brand'>
+            <input id="brand" type="text" name="brand" placeholder="brand">
+        </div>
+        <div class = 'set model'>
+            <input id="model" type="text" name="model" placeholder="model">
+        </div>
+
+        <div class = 'set serial_number'>
+            <input id="serial_number" type="text" name="serial_number" placeholder="serial number">
+        </div>
+
+        <div class = 'set date_of_purchase'>
+            <input id="date_of_purchase" type="text" name="date_of_purchase" placeholder="purchase date MM/DD/YYYY">
+        </div>
+
+        <div class = 'set primary_user'>
+            <input id="primary_user" type="text" name="primary_user" placeholder="primary user">
+        </div>
+
+        <button disabled class = 'submitForm' type="submit">Add device</button>
+    </form>
+
+
 </body>
 </html>

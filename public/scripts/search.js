@@ -74,14 +74,20 @@ searchBox.addEventListener("keyup", async function(e) {
     }
 
     const devices = await response.json();
-    console.log(devices);
+    console.log(devices.length);
+    if (devices.length){
+        devicesContainer.innerHTML = "";
+        devices.forEach(device => {
+            displayDevice(device);
+        })
+    
+        searchBox.value = '';
+    }
+    else {
+        devicesContainer.innerHTML = "";
+        deviceNotFound();
+    }
 
-    devicesContainer.innerHTML = "";
-    devices.forEach(device => {
-        displayDevice(device);
-    })
-
-    searchBox.value = '';
 });
 
 
@@ -112,4 +118,20 @@ function displayDevice(device) {
 
     devicesContainer.appendChild(clone);
 
+}
+
+function deviceNotFound() {
+    const template = document.querySelector("#nowaNazwa");
+
+    const clone = template.content.cloneNode(true);
+
+    const buttons = clone.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.remove();
+        });
+
+    const description = clone.querySelector("p");
+    description.innerHTML = "Device not found !";
+
+    devicesContainer.appendChild(clone);
 }

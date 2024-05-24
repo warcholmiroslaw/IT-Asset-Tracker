@@ -23,6 +23,13 @@ $routing = [
         'action' => 'device',
         'access' => []
     ],
+
+    'saveDevice' => [
+        'controller' => 'EquipmentController',
+        'action' => 'saveDevice',
+        'access' => []
+    ],
+
     'search' => [
         'controller' => 'EquipmentController',
         'action' => 'search',
@@ -46,7 +53,7 @@ $action = $action == null ? 'login': $action;
 
 switch($action){
     case "devicelist":
-    case "project":
+    case "saveDevice":
     case "search":
     case "login":
     case "addDevice":

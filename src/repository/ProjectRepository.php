@@ -56,19 +56,23 @@ class ProjectRepository extends Repository {
     //     return $stmt->fetch(PDO::FETCH_CLASS, 'Project');
     // }
 
-    // public function saveProject($data) {
-    //     $stmt = $this->database->connect()->prepare("
-    //         INSERT INTO public.projects2 (title, description, \"photoUrl\") VALUES (?, ?, ?);
-    //     ");
+    public function saveDevice($data) {
+        $stmt = $this->database->connect()->prepare("
+            INSERT INTO public.equipment (type, brand, model, serial_number, date_of_purchase, primary_user)
+            VALUES (?, ?, ?, ?, ?, ?);
+        ");
 
-    //     $stmt->execute([
-    //         $data["title"],
-    //         $data["description"],
-    //         $data["photoUrl"],
-    //     ]);
+        $stmt->execute([
+            $data["type"],
+            $data["brand"],
+            $data["model"],
+            $data["serial_number"],
+            $data["date_of_purchase"],
+            $data["primary_user"]
+        ]);
 
-    //     return;
-    // }
+        return;
+    }
 
     // public function getProjectByTitle(string $searchString)
     // {
