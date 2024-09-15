@@ -1,7 +1,7 @@
 <?php
 
 require_once 'AppController.php';
-require_once __DIR__ . '/../repository/ProjectRepository.php';
+require_once __DIR__ . '/../repository/EquipmentData.php';
 
 class SecurityController extends AppController { 
 
@@ -18,6 +18,6 @@ class SecurityController extends AppController {
 
 
         $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/dashboard");
+        header("Location: {$url}/deviceList");
     }
 }

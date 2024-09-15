@@ -3,8 +3,7 @@
 require_once 'src/controllers/AppController.php';
 require_once 'src/controllers/EquipmentController.php';
 require_once 'src/controllers/SecurityController.php';
-require_once 'src/repository/ProjectRepository.php';
-require_once 'src/models/Project.php';
+require_once 'src/repository/EquipmentData.php';
 require_once 'Database.php';
 
 $routing = [

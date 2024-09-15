@@ -11,3 +11,5 @@ devices.forEach(function(device) {
         typeForm.value = device.classList[1];
     });
 });
+
+

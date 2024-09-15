@@ -25,9 +25,9 @@
 
             <div class = "dropDown-list">
                 <div class = "item active">All devices</div>
-                <div class = "item">Laptop</div>
-                <div class = "item">Desktop</div>
-                <div class = "item">Smartphone</div>
+                <div class = "item">laptop</div>
+                <div class = "item">desktop</div>
+                <div class = "item">phone</div>
             </div>
 
 
@@ -62,8 +62,9 @@
 
         </div>
     </template>
-    <div class = "device-list">
 
+    <div class = "device-list">
+        <?php if (isset($items) && !empty($items)): ?>
         <?php foreach($items as $device): ?>
             <div class = "device">
                 <button class = "button-device">
@@ -82,6 +83,9 @@
                 </button>
             </div>
         <?php endforeach; ?>
+        <?php else: ?>
+            <p>Brak dostępnych elementów.</p>
+        <?php endif; ?>
     </div>
 
     <!-- <script defer>

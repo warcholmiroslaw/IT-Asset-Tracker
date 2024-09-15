@@ -1,18 +1,62 @@
 <?php
+require_once 'Model.php';
 
-class Equipment {
-    private $id;
-    private $type;
-    private $brand;
-    private $model;
-    private $serial_number;
-    private $date_of_purchase;
-    private $primary_user;
+class Equipment extends Model{
+    public $id;
+    public $type;
+    public $brand;
+    public $model;
+    public $serial_number;
+    public $date_of_purchase;
+    public $primary_user;
 
-    public function __construct() {
-        
+    
+    private static $basePath = 'images/icons/';
+
+    public function __construct(
+        $id = null,
+        $type = null,
+        $brand = null,
+        $model = null,
+        $serial_number = null,
+        $date_of_purchase = null,
+        $primary_user = null
+    ) {
+        $this->id = $id;
+        $this->type = $type;
+        $this->brand = $brand;
+        $this->model = $model;
+        $this->serial_number = $serial_number;
+        $this->date_of_purchase = $date_of_purchase;
+        $this->primary_user = $primary_user;
     }
 
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'brand' => $this->brand,
+            'model' => $this->model,
+            'serial_number' => $this->serial_number,
+            'date_of_purchase' => $this->date_of_purchase,
+            'primary_user' => $this->primary_user
+        ];
+    }
+
+    
+    public function getColumnMapping(): array {
+        return [
+        'id' => 'Id',
+        'type' => 'Type',
+        'brand' => 'Brand',
+        'model' => 'Model',
+        'serial_number' => 'SerialNumber',
+        'date_of_purchase' => 'DateOfPurchase',
+        'primary_user' => 'PrimaryUser'  
+        ];
+    }
+
+    // getters
     public function getType() {
         return $this->type;
     }
@@ -42,15 +86,35 @@ class Equipment {
     }
 
     public function getImage() {
-        switch($this->getType()) {
-            case "Desktop":
-                return 'images/icons/desktop.png';
-            case "Laptop":
-                return 'images/icons/laptop.png';
-            case "Smartphone":
-                return 'images/icons/phone.png';
-            default:
-                return '';
-        }
+        return self::$basePath . $this->type . '.png';
+    }
+
+    // setters
+    // public function setId($id) {
+    //     $this->id = $id;
+    // }
+
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    public function setBrand($brand) {
+        $this->brand = $brand;
+    }
+
+    public function setModel($model) {
+        $this->model = $model;
+    }
+
+    public function setSerialNumber($serial_number) {
+        $this->serial_number = $serial_number;
+    }
+
+    public function setDateOfPurchase($date_of_purchase) {
+        $this->date_of_purchase = $date_of_purchase;
+    }
+
+    public function setPrimaryUser($primary_user) {
+        $this->primary_user = $primary_user;
     }
 }

@@ -72,7 +72,7 @@ searchBox.addEventListener("keyup", async function(e) {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-
+    
     const devices = await response.json();
     console.log(devices.length);
     if (devices.length){
@@ -94,11 +94,11 @@ searchBox.addEventListener("keyup", async function(e) {
 function chooseImage(deviceType) {
 
     switch(deviceType) {
-        case 'Laptop':
+        case 'laptop':
             return 'images/icons/laptop.png';
-        case 'Desktop':
+        case 'desktop':
             return 'images/icons/desktop.png';
-        case 'Smartphone':
+        case 'phone':
             return 'images/icons/phone.png';
         default:
 
