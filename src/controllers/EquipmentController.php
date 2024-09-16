@@ -9,6 +9,7 @@ class EquipmentController extends AppController {
 
     private $equipmentData;
     private $repository;
+    private const TABLE_NAME = "Equipment";
 
     public function __construct()
     {
@@ -19,11 +20,11 @@ class EquipmentController extends AppController {
 
     public function deviceList() {
         // prepare query to get all devices saved in database and load on page
-        $query = $this->repository->prepareQueryForSelectAll('Equipment');
+        $query = $this->repository->prepareQueryForSelectAll(SELF::TABLE_NAME);
 
         return $this->render('devicelist', [
             "title"=> "device List", 
-            "items" => $this->repository->executeQuery($query, 'Equipment')
+            "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME)
         ]);
     }
 
@@ -31,12 +32,35 @@ class EquipmentController extends AppController {
         return $this->render('addDevice');
     }
 
+    // collect data and redirect to edit page
     public function editDevice() {
-        $query = $this->repository->prepareQueryForUpdate('Equipment', 'serial_number');
-        return $this->render('editDevice', [
-            "title"=> "device List", 
-            "items" => $this->repository->executeQuery($query, 'Equipment')
-        ]);
+        if (isset($_GET['device'])) {
+            
+            $deviceId = $_GET['device'];
+            
+            $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'serial_number');
+
+            return $this->render('editDevice', [
+                "title"=> "device List", 
+                "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME, [$deviceId])
+            ]);
+        } else {
+            echo "Device not specified.";
+        }
+    }
+
+    // edit data, change rows in database and then redirect to device list
+    public function updateDevice() {
+        if($this->isPost()) {
+            $device = new Equipment();
+            $device->loadData($_POST);
+
+            if($this->repository->createOrUpdateRow("UPDATE", $device, 'id', $device->getId())){
+                $url = "http://$_SERVER[HTTP_HOST]";
+                header("Location: {$url}/devicelist");
+                exit();
+            }
+        }
     }
 
     public function saveDevice() {
@@ -45,7 +69,7 @@ class EquipmentController extends AppController {
             $device = new Equipment();
             $device->loadData($_POST);
 
-            $this->repository->createRow($device);
+            $this->repository->createOrUpdateRow("CREATE", $device);
 
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/devicelist");
@@ -70,17 +94,17 @@ class EquipmentController extends AppController {
 
                 if ($decoded['type'] === 'All devices'){
 
-                    $query = $this->repository->prepareQueryForSelectAll('Equipment', 'type');
-                    echo json_encode($this->repository->executeQuery($query, 'Equipment'));
+                    $query = $this->repository->prepareQueryForSelectAll(SELF::TABLE_NAME, 'type');
+                    echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME));
 
                 }   else {
-                    $query = $this->repository->prepareQueryForSelect('Equipment', 'type');
-                    echo json_encode($this->repository->executeQuery($query, 'Equipment', [$decoded['type']]));
+                    $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'type');
+                    echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME, [$decoded['type']]));
                 }
             } elseif (array_key_exists('search', $decoded)) {
-                // echo json_encode($this->equipmentData->getEquipmentBySerialNumber($decoded['search']));
-                $query = $this->repository->prepareQueryForSelect('Equipment', 'serial_number');
-                echo json_encode($this->repository->executeQuery($query, 'Equipment', [$decoded['search']]));
+
+                $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'serial_number');
+                echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME, [$decoded['search']]));
             }
         }
     }

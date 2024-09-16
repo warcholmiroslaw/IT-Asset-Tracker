@@ -39,8 +39,18 @@ $routing = [
         'controller' => 'EquipmentController',
         'action' => 'addDevice',
         'access' => [ ]
-    ]
+    ],
     
+    'editDevice' => [
+        'controller' => 'EquipmentController',
+        'action' => 'editDevice',
+        'access' => [ ]
+    ],
+    'updateDevice' => [
+        'controller' => 'EquipmentController',
+        'action' => 'updateDevice',
+        'access' => [ ]
+    ]
     ];
 
 $controller = new AppController();
@@ -56,6 +66,8 @@ switch($action){
     case "search":
     case "login":
     case "addDevice":
+    case "editDevice":
+    case "updateDevice":
         //TODO check if user is authenticated and has access to system
         $controllerName = $routing[$action]['controller'];
         $actionName = $routing[$action]['action'];

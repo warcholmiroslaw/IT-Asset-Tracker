@@ -13,7 +13,7 @@ const fields = [
         name: 'model',
         label: 'Model', 
         type: 'text',
-        pattern: "[A-Z][a-z0-9 ]*", 
+        pattern: "[A-Z][a-z0-9]*", 
         required: true },
     { 
         name: 'serial_number', 
@@ -34,7 +34,7 @@ const fields = [
 ];
 
 
-// czekam na wczytanie kodu HTML
+// wait for HTML to load
 var form = '';
 document.addEventListener('DOMContentLoaded', init);
 var errorMessage = document.querySelector('#errorMessage');

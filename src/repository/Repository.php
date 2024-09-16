@@ -13,11 +13,10 @@ class Repository {
     }
 
 
-    public function createRow($object)
-    {
-
+    public function createOrUpdateRow(string $action, $object, $key = null, $param = null)
+    {   
         $tableName = strtolower(get_class($object));
-        $attributes = $object->getAttributes(); // ex. serial_number
+        $attributes = $object->getAttributes();
 
         $columnMapping = $object->getColumnMapping(); // ex. serial_number -> SerialNumber
 
@@ -37,15 +36,18 @@ class Repository {
                 $values[] = $value;
             }
         }
-
         $columnsString = implode(", ", $columns);
 
         $placeholdersString = implode(", ", $placeholders);
-
-        $sql = "INSERT INTO $tableName ($columnsString) VALUES ($placeholdersString)";
-
+        if($action == "UPDATE"){
+            $sql = "UPDATE public.{$tableName} SET ({$columnsString}) = ($placeholdersString) WHERE {$key} = $param";
+        }
+        else if ($action == "CREATE"){
+            $sql = "INSERT INTO $tableName ($columnsString) VALUES ($placeholdersString)";
+        }
         return $this->executeQuery($sql, $tableName, $values);
     }
+
 
     public function prepareQueryForSelectAll(string $object){
         return "SELECT * FROM public.{$object}";
@@ -53,11 +55,6 @@ class Repository {
 
     public function prepareQueryForSelect(string $object, string $attribute): string {
         return "SELECT * FROM public.{$object} WHERE {$attribute} = :value";
-    }
-
-    public function prepareQueryForUpdate(string $object, string $attribute)
-    {
-        return  "UPDATE FROM public.{$object} WHERE {$attribute} = :value";
     }
 
     public function prepareQueryToDelete(string $object, string $attribute)
