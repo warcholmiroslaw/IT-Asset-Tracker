@@ -46,8 +46,8 @@
 
             <?php endforeach ?>
 
-            <button  class = 'submitForm' type="submit">Submit</button>
-            <button type="button" class="submitForm" onclick="window.location.href='/devicelist';">Cancel changes</button>
+            <button  class = 'formButton submit' type="submit">Submit</button>
+            <button type="button" class="formButton cancel active" onclick="window.location.href='/devicelist';">Cancel changes</button>
         </form>
 
     <?php else: ?>

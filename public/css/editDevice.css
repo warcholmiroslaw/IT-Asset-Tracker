@@ -88,7 +88,7 @@ img {
 }
 
 
-.set, .submitForm{
+.set, .formButton{
     display: flex;
     background-color: white;
     color: black;
@@ -117,19 +117,22 @@ input:focus{
     opacity: 1;
 }
 
-.submitForm {
+.formButton {
     border: none;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1.3em;
-    opacity: 0.2;
-}
-
-.submitForm.correct {
     opacity: 1;
 }
 
+.submit {
+    background-color: green;
+}
+
+.cancel {
+    background-color: red;
+}
 .errorMessage {
     display: block;
     color: red;

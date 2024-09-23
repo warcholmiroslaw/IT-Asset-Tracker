@@ -9,7 +9,7 @@ class EquipmentController extends AppController {
 
     private $equipmentData;
     private $repository;
-    private const TABLE_NAME = "Equipment";
+    private const TABLE_NAME = "equipment";
 
     public function __construct()
     {
@@ -18,18 +18,49 @@ class EquipmentController extends AppController {
         $this->repository = new Repository();
     }
 
-    public function deviceList() {
+    public function deviceList($message = '') {
+
+        // check if message exists, then if it exists assign to variable and delete it from session
+        session_start();
+
+        if (isset($_SESSION['message'])) {
+            $message = $_SESSION['message'];
+            unset($_SESSION['message']);
+        }
+
         // prepare query to get all devices saved in database and load on page
         $query = $this->repository->prepareQueryForSelectAll(SELF::TABLE_NAME);
 
         return $this->render('devicelist', [
             "title"=> "device List", 
-            "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME)
+            "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME),
+            "message" => $message
         ]);
     }
 
     public function addDevice() {
         return $this->render('addDevice');
+    }
+
+        // delete device from database
+    public function deleteDevice() {
+        if (isset($_GET['device'])) {
+            
+            $deviceId = $_GET['device'];
+            
+            $query = $this->repository->prepareQueryToDelete(SELF::TABLE_NAME, 'serial_number');
+            $quantity = $this->repository->executeQuery($query, SELF::TABLE_NAME, [$deviceId]);
+            
+            // after delete redirect to /devicelist with confirmation message
+            session_start();
+            $_SESSION['message'] = "Pomyslnie sunieto urzadzenie, SN = " . $deviceId . " liczba usunietych rekordow = " . $quantity;
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/devicelist");
+            exit();
+
+        } else {
+            echo "Can't remove this device !";
+        }
     }
 
     // collect data and redirect to edit page
@@ -71,6 +102,8 @@ class EquipmentController extends AppController {
 
             $this->repository->createOrUpdateRow("CREATE", $device);
 
+            session_start();
+            $_SESSION['message'] = "Pomyslnie dodano urzadenie SN = " . $device->getSerialNumber();
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/devicelist");
             exit();

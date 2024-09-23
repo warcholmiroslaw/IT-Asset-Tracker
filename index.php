@@ -50,6 +50,11 @@ $routing = [
         'controller' => 'EquipmentController',
         'action' => 'updateDevice',
         'access' => [ ]
+    ],
+    'deleteDevice' => [
+        'controller' => 'EquipmentController',
+        'action' => 'deleteDevice',
+        'access' => [ ]
     ]
     ];
 
@@ -68,6 +73,7 @@ switch($action){
     case "addDevice":
     case "editDevice":
     case "updateDevice":
+    case "deleteDevice":
         //TODO check if user is authenticated and has access to system
         $controllerName = $routing[$action]['controller'];
         $actionName = $routing[$action]['action'];

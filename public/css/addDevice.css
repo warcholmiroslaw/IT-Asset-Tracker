@@ -118,17 +118,15 @@ input:focus{
 }
 
 .submitForm {
+    background-color: green;
     border: none;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1.3em;
-    opacity: 0.2;
-}
-
-.submitForm.correct {
     opacity: 1;
 }
+
 
 .errorMessage {
     display: block;

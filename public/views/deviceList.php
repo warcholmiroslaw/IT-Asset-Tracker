@@ -41,27 +41,10 @@
             Add device
         </div>
 
-    </div>
-
-    <template id="nowaNazwa">
-        <div class = "device show">
-            <button class = "button-device">
-               <img src="">
-               <p></p>
-            </button>
-
-            <button class = "button-edit">
-                <img src="images/icons/edit.png" alt="edit icon">
-                Edit
-            </button>
-
-            <button class = "button-remove">
-                <img src="images/icons/remove.png" alt="remove icon">
-                delete
-            </button>
-
+        <div id = "message">
+            <?php if (isset($message) && !empty($message)) {echo $message;} ?>
         </div>
-    </template>
+    </div>
 
     <div class = "device-list">
         <?php if (isset($items) && !empty($items)): ?>
@@ -88,13 +71,5 @@
         <?php endif; ?>
     </div>
 
-    <!-- <script defer>
-        function checkBoxes() {
-            console.log(window.innerHeight);
-        }
-
-        window.addEventListener('scroll', checkBoxes);
-        checkBoxes(); // Wywołanie funkcji od razu po załadowaniu skryptu
-    </script> -->
 </body>
 </html>
