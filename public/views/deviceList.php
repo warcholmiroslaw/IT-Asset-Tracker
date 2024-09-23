@@ -9,6 +9,7 @@
     <script src="public/scripts/scroller.js" defer></script>
     <script src="public/scripts/search.js" defer></script>
     <script src="public/scripts/addDevice.js" defer></script>
+    <script src="public/scripts/deleteDevice.js" defer></script>
     <title>All devices</title>
 </head>
 <body>
