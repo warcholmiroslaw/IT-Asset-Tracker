@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/css/userView.css">   
+    <link rel="stylesheet" type="text/css" href="public/css/userView.css">  
+    <link rel="stylesheet" type="text/css" href="public/css/menu.css">
+    <script src="public/scripts/logout.js" defer></script>
+
     <title>Your equipment</title>
 </head>
 <body>
+
+        <div class = "menu">    
+            <h1>Hi, <?php if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {echo $_SESSION['user']['username'];} ?> !<h1>
+            <button class = "logout">Logout</button>
+        </div>
 
         <div class = "equipment-title-main">
             <h1>Your equipment</h1>

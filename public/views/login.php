@@ -14,10 +14,12 @@
         
         <h1 id="title">IT Asset Tracker</h1>
 
-        <form action="/deviceList" method="POST" id = "loginForm">
+        <form action="/login" method="POST" id = "loginForm">
             <input required type = "email" name = 'email' placeholder="email">
             <input required type = "password" name = 'password' placeholder="password">
-
+            <div id = "message">
+            <?php if (isset($message) && !empty($message)) {echo $message;} ?>
+            </div>
             <button type="submit">log in</button>
         </form>
     </div>

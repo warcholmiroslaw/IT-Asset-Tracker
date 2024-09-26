@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/../../Database.php';
 require_once __DIR__.'/../models/Equipment.php';
-
+require_once __DIR__.'/../models/Users.php';
 
 class Repository {
     protected $database;

@@ -1,28 +1,24 @@
 <?php
 
 require_once 'AppController.php';
-require_once __DIR__ . '/../repository/EquipmentData.php';
 require_once __DIR__ . '/../repository/Repository.php';
 
 
 class EquipmentController extends AppController { 
 
-    private $equipmentData;
+    //private $equipmentData;
     private $repository;
     private const TABLE_NAME = "equipment";
 
     public function __construct()
     {
         parent::__construct();
-        $this->equipmentData = new EqipmentData();
         $this->repository = new Repository();
     }
 
     public function deviceList($message = '') {
 
         // check if message exists, then if it exists assign to variable and delete it from session
-        session_start();
-
         if (isset($_SESSION['message'])) {
             $message = $_SESSION['message'];
             unset($_SESSION['message']);
@@ -42,6 +38,10 @@ class EquipmentController extends AppController {
         return $this->render('addDevice');
     }
 
+    public function userView() {
+        return $this->render('userView');
+    }
+
         // delete device from database
     public function deleteDevice() {
         if (isset($_GET['device'])) {
@@ -52,7 +52,6 @@ class EquipmentController extends AppController {
             $quantity = $this->repository->executeQuery($query, SELF::TABLE_NAME, [$deviceId]);
             
             // after delete redirect to /devicelist with confirmation message
-            session_start();
             $_SESSION['message'] = "Pomyslnie sunieto urzadzenie, SN = " . $deviceId . " liczba usunietych rekordow = " . $quantity;
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/devicelist");
@@ -70,10 +69,11 @@ class EquipmentController extends AppController {
             $deviceId = $_GET['device'];
             
             $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'serial_number');
+            $_SESSION['message'] = "Zaktualizowano dane urzadzenia SN = " . $deviceId;
 
             return $this->render('editDevice', [
                 "title"=> "device List", 
-                "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME, [$deviceId])
+                "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME, [$deviceId]) 
             ]);
         } else {
             echo "Device not specified.";

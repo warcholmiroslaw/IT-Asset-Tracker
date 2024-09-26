@@ -5,14 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/css/deviceList.css">  
+    <link rel="stylesheet" type="text/css" href="public/css/menu.css">  
     
     <script src="public/scripts/scroller.js" defer></script>
     <script src="public/scripts/search.js" defer></script>
     <script src="public/scripts/addDevice.js" defer></script>
+    <script src="public/scripts/editDevice.js" defer></script>
     <script src="public/scripts/deleteDevice.js" defer></script>
+    <script src="public/scripts/logout.js" defer></script>
     <title>All devices</title>
 </head>
 <body>
+    <div class = "menu">    
+        <h1>Hi, <?php if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {echo $_SESSION['user']['username'];} ?> !<h1>
+        <button class = "logout">Logout</button>
+    </div>
     <div class = "search-options">
 
         <h1>Device list</h1>

@@ -1,7 +1,7 @@
 <?php
 require_once 'Model.php';
 
-class User {
+class Users extends Model{
     private $id;
     private $name;
     private $surname;
@@ -14,8 +14,30 @@ class User {
     private $password;
     private $created_at;
 
-    public function __construct(){}
+    public function __construct(){
+        
+    }
 
+    public function getColumnMapping(): array {
+        return [
+        'id' => 'Id',
+        'name' => 'Name',
+        'surname' => 'Surname',
+        'account_type' => 'AccountType',
+        'job_title' => 'JobTitle',
+        'department' => 'Department',
+        'manager' => 'Manager',
+        'email' => 'Email',
+        'phone_number' => 'PhoneNumber',
+        'password' => 'Password',
+        'created_at' => 'CreatedAt'
+        ];
+    }
+
+
+    public function findUserByEmail ($email) {
+
+    }
     public function getId() {
         return $this->id;
     }
