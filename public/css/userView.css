@@ -1,5 +1,6 @@
 .equipment-title{
-    display: flex;
+    /* float: left; */
+    width: 100%;
     align-items: left;
     justify-content: left;
 }
@@ -13,25 +14,25 @@
     justify-content: center;
     border-radius: 20px;
     margin-right: 20px;
+    overflow: hidden;
 }
 .equipment-image img{
     max-width: 70%;
-    max-height: auto;
+    max-height: 100%;
 }
 .default-information{
     float: right;
     display: block;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box ;
     text-align: left;
-    justify-content: center;
     align-items: left;
-    background-color: white;
-    color: black;
+    color: red;
     border-radius: 20px;
     width: 50%;
-    overflow: hidden;
-    font-size: large;
+    max-height: 100%;
+    overflow:calc(80%);
+    font-size: medium;
 }
 .default-information h1{
     margin-top: 0;
@@ -39,12 +40,15 @@
 .equipment-head{
     display: flex;
     height: 30%;
+    max-height: 30%;
+    overflow: hidden;
 }
 
 .specification{
     margin-top: 20px;
     display: block;
     background-color: white;
+    color: black;
     border-radius: 20px;
     text-align: left;
     justify-content: center;
@@ -65,8 +69,9 @@
     display: block;
     margin: 10px;
     background-color: #D9D9D9;
-    /* width: 40vw; */
-    /* text-align: left; */
+    width: 100%;
+    justify-content: space-evenly;
+    min-width: 400px;
     padding: 20px;
     border-radius: 20px;
     height: 70vh;
@@ -74,60 +79,38 @@
     overflow:hidden;
 }
 
-.computer{
-    /* float: left; */
-    /* margin-left: 5%; */
-    width: 40%;
-    /* margin-right: 2.5%; */
-}
-.phone{
-    /* margin-left: 2.5%; */
-    /* float: left; */
-    /* margin-right: 5%; */
-    width: 40%;
-}
-.devices{
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
+.device{
+    display: block;
+    width: 50%;
+    margin: 0 25%; 
+    /* height: 80%; */
+    min-width: 600px;
+    box-sizing: border-box;
 }
 
 .equipment h1{
     color: black;
-}
-body{
-    background: linear-gradient(to bottom, #1A254F, #054A7B);
-    background-size: cover;
-    background-attachment: fixed;
-    min-width: 900px;
 }
 
 h1{
     color: white;
 }
 
+
 @media (max-width: 1000px ) {
+    body {
+        width: auto;
 
-.devices {
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
+    }
+    
+    .device{
+        display: block;
+        width: 50%;
+        height: 30%;
+        box-sizing: border-box;
+    }
 
-
-.phone, .computer{
-    width: 70%;
-}
-
-}
-
-
-.button-device img,
-.button-edit img,
-.button-remove img {
-    max-height: 80%; /* Maksymalna wysokość obrazu równa wysokości przycisku */
-    height: fit-content;
-    width: auto; /* Automatyczne skalowanie szerokości */
-    display: block; /* Zapobiega dodaniu dodatkowej przestrzeni poniżej obrazu */
-    margin-right: 5px; /* Dodatkowy margines z prawej strony obrazu */
+    .equipment{
+        min-width: none;
+    }
 }

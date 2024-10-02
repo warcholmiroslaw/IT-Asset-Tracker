@@ -1,8 +1,8 @@
 <?php
 
 require_once 'AppController.php';
+require_once 'OwnershipController.php';
 require_once __DIR__ . '/../repository/Repository.php';
-
 
 class EquipmentController extends AppController { 
 
@@ -39,7 +39,15 @@ class EquipmentController extends AppController {
     }
 
     public function userView() {
-        return $this->render('userView');
+        $ownership = new OwnershipController();
+
+        $queryResult = $ownership->getUserDevices();
+        $devices = $ownership->calculateDates($queryResult);
+        
+        return $this->render('userView', [
+            "title" => "Your equipment",
+            "devices" => $devices
+        ]);
     }
 
         // delete device from database

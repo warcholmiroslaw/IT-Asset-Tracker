@@ -41,7 +41,8 @@ class SecurityController extends AppController {
 
             $_SESSION['user'] = [
                 'username' => $user->getName(),
-                'role' => $user->getAccountType()
+                'role' => $user->getAccountType(),
+                'id' => $user->getId()
             ];
             
             $url = "http://$_SERVER[HTTP_HOST]";
@@ -50,7 +51,7 @@ class SecurityController extends AppController {
                 header("Location: {$url}/devicelist");
                 exit();
             }
-
+            
             header("Location: {$url}/userView");
             exit();
         } 

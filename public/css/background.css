@@ -2,8 +2,7 @@ body{
     background: linear-gradient(to bottom, #1A254F, #054A7B);
     background-size: cover;
     background-attachment: fixed;
-    min-width: 900px;
     color: white;
     font-size: larger;
-    font-family: Impact, fantasy;
+    font-family: Impact, fantasy;   
 }
