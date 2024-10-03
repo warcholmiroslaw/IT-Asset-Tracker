@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/css/deviceList.css">  
-    <link rel="stylesheet" type="text/css" href="public/css/menu.css">  
+    <link rel="stylesheet" type="text/css" href="public/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="public/css/background.css">
+
+
     
     <script src="public/scripts/scroller.js" defer></script>
     <script src="public/scripts/search.js" defer></script>
@@ -62,16 +65,17 @@
                     <img src="<?php echo $device->getImage(); ?>" alt="device type icon">
                     <?= $device->getSerialNumber(); ?>
                 </button>
+                <div class = "func-buttons">
+                    <button class = "button-edit">
+                        <img src="images/icons/edit.png" alt="edit icon">
+                        Edit
+                    </button>
 
-                <button class = "button-edit">
-                    <img src="images/icons/edit.png" alt="edit icon">
-                    Edit
-                </button>
-
-                <button class = "button-remove">
-                    <img src="images/icons/remove.png" alt="remove icon">
-                    delete
-                </button>
+                    <button class = "button-remove">
+                        <img src="images/icons/remove.png" alt="remove icon">
+                        delete
+                    </button>
+                </div>
             </div>
         <?php endforeach; ?>
         <?php else: ?>

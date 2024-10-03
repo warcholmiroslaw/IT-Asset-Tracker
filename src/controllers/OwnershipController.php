@@ -57,7 +57,6 @@ class OwnershipController extends AppController{
             };
 
 
-
             $endOfAmortization = (new DateTime($device["date_of_purchase"]))->add(new DateInterval("P{$amortizationPeriod}Y"));
             $device["replacement_date"] = $endOfAmortization->format('Y-m-d');;
             

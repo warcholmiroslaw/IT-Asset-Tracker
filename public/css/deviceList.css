@@ -1,16 +1,5 @@
-body{
-    background: linear-gradient(to bottom, #1A254F, #054A7B);
-    background-size: cover;
-    background-attachment: fixed;
-    min-width: 900px;
-    color: white;
-    font-size: larger;
-    /* font-weight: bold; */
-    font-family: Impact, fantasy;
-
-}
-
-.search-options{
+.search-options,
+.device-list{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,14 +13,9 @@ body{
 }
 
 .device-list {
+    max-width: 100%;
     margin-top: 3%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 100%;
     overflow: hidden;
-    overflow-y: hidden;
 }
 
 
@@ -46,8 +30,13 @@ body{
     height: 50px;
     width: 30%;
     box-sizing: border-box;
+    justify-content: space-between;
     transform: translateX(300%);
     transition: transform 0.4s ease;
+}
+
+.func-buttons {
+    display: flex;
 }
 
 .device.show{
@@ -56,7 +45,7 @@ body{
 
 
 .device:only-child:not(:first-child):not(:last-child) {
-    transform: scale(0.2); /* Zmniejszenie wielkości o 20% */
+    transform: scale(0.2);
 } 
 .search-box, .add-device{
     display: flex;
@@ -151,9 +140,10 @@ body{
 
 }
 
+
+
 .button-device {
-    margin-right: 30%;
-    margin-left: 0;
+    width: 40%;
 }
 
 
@@ -175,11 +165,31 @@ img {
     outline: 0;
     border-bottom: #054A7B;
 }
-@media screen and (max-width: 900px) {
-    /* .dropDownMenu,
-    .search-box,
-    .add-device, */
-    .device{
-        width: 60%;
+@media screen and (max-width: 800px) {
+
+    .device, 
+    .dropDown-btn,
+    .dropDown-list,
+    .add-device, 
+    .search-box {
+        width: 80%;
+    }
+
+    body {
+        padding-top: 10%;
+    }
+
+    .device {
+        padding: 0px 0px;
+        justify-content: space-between;
+    }
+
+    .button-edit {
+        width: 10%;
+        min-width: 60px;
+    }
+
+    img {
+        padding: 5px;
     }
 }
