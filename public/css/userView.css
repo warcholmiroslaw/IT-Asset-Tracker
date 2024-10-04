@@ -1,30 +1,21 @@
-.equipment-title{
-    /* float: left; */
-    width: 100%;
-    align-items: left;
-    justify-content: left;
-}
-
 .equipment-image{
     display: flex;
     width: calc(50% - 20px);
-    float: left;
     background-color: white;
     align-items: center;
     justify-content: center;
     border-radius: 20px;
     margin-right: 20px;
     overflow: hidden;
+    height: 100%;
+    box-sizing: border-box;
 }
 .equipment-image img{
     max-width: 70%;
     max-height: 100%;
 }
 .default-information{
-    float: right;
-    display: block;
     padding: 10px;
-    box-sizing: border-box ;
     text-align: left;
     align-items: left;
     color: red;
@@ -33,12 +24,16 @@
     max-height: 100%;
     overflow:calc(80%);
     font-size: medium;
+    box-sizing: border-box;
 }
 .default-information h1{
     margin-top: 0;
 }
 .equipment-head{
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     height: 30%;
     max-height: 30%;
     overflow: hidden;
@@ -60,6 +55,7 @@
     overflow: hidden;
 }
 .equipment-title-main{
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,7 +65,7 @@
     display: block;
     margin: 10px;
     background-color: #D9D9D9;
-    width: 100%;
+    width:  calc(100% - 20px);
     justify-content: space-evenly;
     min-width: 400px;
     padding: 20px;
@@ -83,7 +79,6 @@
     display: block;
     width: 50%;
     margin: 0 25%; 
-    /* height: 80%; */
     min-width: 600px;
     box-sizing: border-box;
 }
@@ -97,20 +92,56 @@ h1{
 }
 
 
-@media (max-width: 1000px ) {
+@media (max-width: 800px ) {
     body {
-        width: auto;
+        padding-top: 10%;
+        display: block;
+    }
 
+    h1 {
+        font-size: 24px;
     }
     
     .device{
         display: block;
-        width: 50%;
+        width: 90%;
+        margin: 0 5%;
         height: 30%;
         box-sizing: border-box;
+        min-width: auto;
+        margin-bottom: 5%;
+        box-sizing: border-box;
+        
+    }
+    .menu {
+        width: 50%;
+        margin: 0 25%;
+        justify-content: space-evenly;
+
+    }
+    .equipment{
+        min-width: auto;
+        height: auto;
     }
 
-    .equipment{
-        min-width: none;
+    .specification {
+        padding-top: 0%;
+        padding-bottom: 0%;
+        height: auto;
+    }
+
+    .equipment-head {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .equipment-image {
+        padding-top: 10%;
+        padding-bottom: 10%;
+    }
+
+    .default-information {
+        height: 80%;
+
     }
 }
