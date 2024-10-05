@@ -1,19 +1,13 @@
-body{
-    background: linear-gradient(to bottom, #1A254F, #054A7B);
-    background-size: cover;
-    background-attachment: fixed;
+/* body{
     min-width: 900px;
-    color: white;
-    font-size: larger;
-    font-family: Impact, fantasy;
-}
+
+} */
 
 .title {
     justify-content: center;
     align-items: center;
     display: flex;
 }
-
 
 img {
         height: auto;
@@ -138,23 +132,31 @@ input:focus{
 
 @media screen and (max-width: 900px) {
     body {
+        /* width: 100%; */
         display: block;
         justify-content: center;
         align-items: center;
     }
     .images-container {
         width: 100%;
+        padding: 0 2%;
+        height: 25vh;
         justify-content: space-between;
         align-items: center;
     }
 
     .image-box {
         height: 45%;
+        width: 32%;
     }
 
     .set {
-        height: 70px;
+        height: 40px;
         width: 60%;
         size: 1.2em;
+    }
+
+    .submitForm {
+        width: 60%;
     }
 }

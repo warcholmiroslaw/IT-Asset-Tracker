@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/css/addDevice.css"> 
+    <link rel="stylesheet" type="text/css" href="public/css/addDevice.css">
+    <link rel="stylesheet" type="text/css" href="public/css/background.css">
+
     <script defer src="public/scripts/addDeviceForm.js" defer></script>
     <script defer src="public/scripts/validateDevice.js" defer></script>
     <title>Add device</title>
@@ -18,11 +20,10 @@
         <h3>Select device type</h3>
 
         <div class = 'images-container'>
-            <div class="image-box desktop show"> </div>
+            <div class="image-box desktop show"></div>
             <div class="image-box laptop"> </div>
             <div class="image-box phone"> </div>
         </div>
-
     </div>
 
     <form action="/saveDevice" method="POST" class = 'device-properties'>
