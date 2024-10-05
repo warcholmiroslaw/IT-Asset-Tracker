@@ -3,30 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/css/background.css"> 
+    <link rel="stylesheet" type="text/css" href="public/css/accessDenied.css"> 
     <link rel="stylesheet" type="text/css" href="public/css/menu.css"> 
+    <link rel="stylesheet" type="text/css" href="public/css/background.css"> 
     <script src="public/scripts/logout.js" defer></script>
 
     <title>Access denied</title>
-
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f1f1f1;
-        }
-
-        h1 {
-            font-size: 48px;
-            color: red;
-        }
-
-
-    </style>
-
 </head>
 <body>
 

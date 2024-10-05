@@ -1,0 +1,23 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    background-color: #f1f1f1;
+}
+
+h1 {
+    font-size: 48px;
+    color: red;
+}
+
+@media (max-width: 1000px ) {
+    body {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+}
