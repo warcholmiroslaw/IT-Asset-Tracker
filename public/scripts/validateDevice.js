@@ -21,7 +21,7 @@ const fields = [
         type: 'text', 
         required: true},
     { 
-        name: 'date_of_purchase', 
+        name: 'purchase_date', 
         label: 'Purchase date', 
         type: 'date',
         required: true },

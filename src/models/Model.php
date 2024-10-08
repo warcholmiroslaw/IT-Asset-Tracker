@@ -1,6 +1,16 @@
 <?php
 
 abstract class Model {
+
+    const RULE_REQUIRED = 'required';
+    const RULE_EMAIL = 'email';
+    const RULE_UNIQUE = 'unique';
+    const RULE_EXISTS = 'exists';
+
+    public array $errors = [];
+
+
+
     abstract public function getColumnMapping();
 
     public function getAttributes(): array {

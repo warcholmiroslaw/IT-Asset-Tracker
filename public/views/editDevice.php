@@ -30,21 +30,25 @@
         <?php foreach ($attributes as $attribute => $value): ?>
 
             <?$method = "get".$value; ?>
-
+            
                 <div class = 'set <?php echo $attribute?>'>
 
                         <span>
                             <?php echo $attribute ?>
                         </span>
                         
-                        <?php if($attribute === 'id'):?>
+                        <?php if($attribute === 'id' || $attribute === 'type'):?>
                             <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$method();?>"readonly>
                         <?php else: ?>
                             <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$method();?>">
                         <?endif;?>
                 </div>
 
-                <text class = 'errorMessage' name = '<?php echo $attribute?>'></text>
+                <text class = 'errorMessage' name = '<?php echo $attribute?>'>
+                    <?php if (isset($errors[$attribute])): ?>
+                    <?php echo htmlspecialchars($errors[$attribute]); ?>
+                    <?php endif; ?>
+                </text>
 
             <?php endforeach ?>
 
@@ -53,7 +57,7 @@
         </form>
 
     <?php else: ?>
-        <p>Blad ladowania danych</p>
+        <p class = "data-error">Blad ladowania danych</p>
     <?php endif; ?>
 
 

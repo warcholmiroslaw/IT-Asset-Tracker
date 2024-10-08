@@ -45,10 +45,10 @@
         </div>
         <text class = 'errorMessage' name = 'serial_number'></text>
 
-        <div class = 'set date_of_purchase'>
-            <input  required type="date" name="date_of_purchase" placeholder="purchase date MM/DD/YYYY">
+        <div class = 'set purchase_date'>
+            <input  required type="date" name="purchase_date" placeholder="purchase date MM/DD/YYYY">
         </div>
-        <text class = 'errorMessage' name = 'date_of_purchase'></text>
+        <text class = 'errorMessage' name = 'purchase_date'></text>
 
         <div class = 'set primary_user'>
             <input required type="text" name="primary_user" placeholder="primary user">

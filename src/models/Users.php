@@ -1,5 +1,7 @@
 <?php
 require_once 'Model.php';
+require_Once __DIR__.'/../../Database.php';
+// require_Once __DIR__.'/../repository/Repository.php';
 
 class Users extends Model{
     private $id;
@@ -18,6 +20,7 @@ class Users extends Model{
         
     }
 
+
     public function getColumnMapping(): array {
         return [
         'id' => 'Id',
@@ -32,6 +35,29 @@ class Users extends Model{
         'password' => 'Password',
         'created_at' => 'CreatedAt'
         ];
+    }
+
+    public function getClassName() {
+        return static::class;
+    }
+
+    public function ifUserExists($user) {
+        list($name, $surname) =  explode(' ', $user, 2);
+        $database = new Database();
+        $tableName = self::class;
+        $statement = $database->connect()->prepare("SELECT * FROM $tableName WHERE name = :name AND surname = :surname");
+        $statement->bindValue(":name", $name, PDO::PARAM_STR);
+        $statement->bindValue(":surname", $surname, PDO::PARAM_STR);
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $tableName);
+
+        if ($result) {
+            $user = $result[0];
+            return $user->id;
+            
+        }
+        return false;
     }
 
 

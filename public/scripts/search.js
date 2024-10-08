@@ -119,6 +119,11 @@ function displayDevice(device) {
     buttonDevice.appendChild(icon);
     buttonDevice.appendChild(serialNumber);
 
+    // generate div func buttons
+    const funcButtons = document.createElement('div');
+    funcButtons.classList.add('func-buttons');
+
+
     // create structure of edit button
     const buttonEdit = document.createElement('button');
     buttonEdit.classList.add('button-edit');
@@ -149,8 +154,9 @@ function displayDevice(device) {
 
     // add buttons to div structure
     deviceDiv.appendChild(buttonDevice);
-    deviceDiv.appendChild(buttonEdit);
-    deviceDiv.appendChild(buttonRemove);
+    funcButtons.appendChild(buttonEdit);
+    funcButtons.appendChild(buttonRemove);
+    deviceDiv.appendChild(funcButtons);
     deviceList.appendChild(deviceDiv);
 }
 

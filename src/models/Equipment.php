@@ -7,7 +7,7 @@ class Equipment extends Model{
     public $brand;
     public $model;
     public $serial_number;
-    public $date_of_purchase;
+    public $purchase_date;
     public $primary_user;
 
     
@@ -19,7 +19,7 @@ class Equipment extends Model{
         $brand = null,
         $model = null,
         $serial_number = null,
-        $date_of_purchase = null,
+        $purchase_date = null,
         $primary_user = null
     ) {
         $this->id = $id;
@@ -27,7 +27,7 @@ class Equipment extends Model{
         $this->brand = $brand;
         $this->model = $model;
         $this->serial_number = $serial_number;
-        $this->date_of_purchase = $date_of_purchase;
+        $this->purchase_date = $purchase_date;
         $this->primary_user = $primary_user;
     }
 
@@ -38,7 +38,7 @@ class Equipment extends Model{
             'brand' => $this->brand,
             'model' => $this->model,
             'serial_number' => $this->serial_number,
-            'date_of_purchase' => $this->date_of_purchase,
+            'purchase_date' => $this->purchase_date,
             'primary_user' => $this->primary_user
         ];
     }
@@ -51,8 +51,8 @@ class Equipment extends Model{
         'brand' => 'Brand',
         'model' => 'Model',
         'serial_number' => 'SerialNumber',
-        'date_of_purchase' => 'DateOfPurchase',
-        'primary_user' => 'PrimaryUser'  
+        'purchase_date' => 'PurchaseDate',
+        'primary_user' => 'PrimaryUser'
         ];
     }
 
@@ -77,44 +77,15 @@ class Equipment extends Model{
         return $this->serial_number;
     }
 
-    public function getDateOfPurchase() {
-        return $this->date_of_purchase;
-    }
-
-    public function getPrimaryUser() {
-        return $this->primary_user;
+    public function getPurchaseDate() {
+        return $this->purchase_date;
     }
 
     public function getImage() {
         return self::$basePath . $this->type . '.png';
     }
 
-    // setters
-    // public function setId($id) {
-    //     $this->id = $id;
-    // }
-
-    public function setType($type) {
-        $this->type = $type;
-    }
-
-    public function setBrand($brand) {
-        $this->brand = $brand;
-    }
-
-    public function setModel($model) {
-        $this->model = $model;
-    }
-
-    public function setSerialNumber($serial_number) {
-        $this->serial_number = $serial_number;
-    }
-
-    public function setDateOfPurchase($date_of_purchase) {
-        $this->date_of_purchase = $date_of_purchase;
-    }
-
-    public function setPrimaryUser($primary_user) {
-        $this->primary_user = $primary_user;
+    public function getPrimaryUser() {
+        return $this->primary_user;
     }
 }
