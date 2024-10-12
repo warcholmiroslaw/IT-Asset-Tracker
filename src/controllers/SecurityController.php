@@ -4,39 +4,38 @@ require_once 'AppController.php';
 
 class SecurityController extends AppController { 
 
-    private $repository;
-    private const TABLE_NAME = "users";
-
     public function __construct(){
         parent::__construct();
-        $this->repository = new Repository();
     }
 
     public function login() {
 
         if($this->isGet()) {
-            return $this->render('login');
+            $this->render('login');
+            exit();
         }
 
         $email = $_POST['email'];
         $password = $_POST['password'];
 
 
-        $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'email');
-        $users = $this->repository->executeQuery($query, SELF::TABLE_NAME, [$email]);
+        $user = $this->userRepository->loginCheck($email);
         
-        if(empty($users)){
-            return $this->render('login', 
-                ["message" => "Nie ma takiego uzytkownika!"]);
+        if(empty($user)){
+            $this->render('login',
+                ["title" => "Login",
+                "message" => "Nie ma takiego uzytkownika!"]);
+            exit();
         }
         
-        if ($users[0] instanceof Users) {
-            
-            $user = $users[0];
+        if ($user instanceof Users) {
             
             if (!password_verify($password, $user->getPassword())){
-                return $this->render('login', 
-                ["message" => "Niepoprawne haslo!"]);
+
+                $this->render('login',
+                ["title" => "Login",
+                "message" => "Niepoprawne haslo!"]);
+                exit();
             }
 
             $_SESSION['user'] = [
@@ -48,7 +47,7 @@ class SecurityController extends AppController {
             $url = "http://$_SERVER[HTTP_HOST]";
 
             if($_SESSION['user']['role'] == 'admin'){
-                header("Location: {$url}/devicelist");
+                header("Location: {$url}/deviceList");
                 exit();
             }
             

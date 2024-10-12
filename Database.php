@@ -7,6 +7,11 @@ class Database {
     private $database = 'db';
     private $port = 5432;
 
+    // tables
+    public const OWNERSHIP_TABLE = "ownership";
+    public const EQUIPMENT_TABLE = "equipment";
+    public const USERS_TABLE = "users";
+
 
     public function __construct()
     {
@@ -26,7 +31,7 @@ class Database {
                 dbname=$this->database", $this->username, $this->password,
                 ["sslmode"  => "prefer"]
             );
-            
+
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
@@ -34,5 +39,5 @@ class Database {
         catch(PDOException $e) {
             die("Connection failed: " . $e->getMessage());
         }
-    }  
+    }
 }

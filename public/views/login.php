@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="public/css/login.css">
     <link rel="stylesheet" type="text/css" href="public/css/background.css">
-    <title>Login</title>
+    <title>
+        <?php if(isset($title)){echo $title;}?>
+    </title>
 </head>
 <body>
     <div class = 'logo'>

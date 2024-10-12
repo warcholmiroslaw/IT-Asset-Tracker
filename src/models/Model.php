@@ -7,7 +7,7 @@ abstract class Model {
     const RULE_UNIQUE = 'unique';
     const RULE_EXISTS = 'exists';
 
-    public array $errors = [];
+    // public array $errors = [];
 
 
 

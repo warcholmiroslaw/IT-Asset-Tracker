@@ -13,10 +13,11 @@
     <script src="public/scripts/scroller.js" defer></script>
     <script src="public/scripts/search.js" defer></script>
     <script src="public/scripts/addDevice.js" defer></script>
+    <script src="public/scripts/deviceProperties.js" defer></script>
     <script src="public/scripts/editDevice.js" defer></script>
     <script src="public/scripts/deleteDevice.js" defer></script>
     <script src="public/scripts/logout.js" defer></script>
-    <title>All devices</title>
+    <title><?php if(isset($title)){echo $title;}?></title>
 </head>
 <body>
     <div class = "menu">    
@@ -25,7 +26,7 @@
     </div>
     <div class = "search-options">
 
-        <h1>Device list</h1>
+        <h1><?php if(isset($title)){echo $title;}?></h1>
 
             <div class = "dropDown-btn">
                 <span id = "selected-item">View by</span>

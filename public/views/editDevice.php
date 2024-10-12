@@ -14,9 +14,7 @@
         <h1>Edit Device</h1>
     </div>
 
-    <?php if (isset($items) && !empty($items)): ?>
-        <?php $device = $items[0]; ?>
-
+    <?php if (isset($device)): ?>
             <div class = 'images-container'>
                 <div class="image-box <?php echo $device->getType();?> show">
                 </div>
@@ -27,20 +25,25 @@
 
         <?php $attributes = $device->getColumnMapping() ?>
 
-        <?php foreach ($attributes as $attribute => $value): ?>
+        <?php foreach ($attributes as $attribute => $label): ?>
 
-            <?$method = "get".$value; ?>
+
             
                 <div class = 'set <?php echo $attribute?>'>
 
                         <span>
-                            <?php echo $attribute ?>
+                            <?php echo $label ?>
                         </span>
                         
                         <?php if($attribute === 'id' || $attribute === 'type'):?>
-                            <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$method();?>"readonly>
+                            <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$attribute;?>"readonly>
                         <?php else: ?>
-                            <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$method();?>">
+
+                            <?php if ($attribute !== "purchase_date"): ?>
+                                <input required type="text" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$attribute;?>">
+                            <?php else: ?>
+                                <input required type="date" name="<?php echo $attribute ?>" placeholder="enter data" value = "<?php echo $device->$attribute;?>">
+                            <?php endif; ?>
                         <?endif;?>
                 </div>
 
@@ -50,10 +53,10 @@
                     <?php endif; ?>
                 </text>
 
-            <?php endforeach ?>
+        <?php endforeach ?>
 
             <button  class = 'formButton submit' type="submit">Submit</button>
-            <button type="button" class="formButton cancel active" onclick="window.location.href='/devicelist';">Cancel changes</button>
+            <button type="button" class="formButton cancel active" onclick="window.location.href='/deviceList';">Cancel changes</button>
         </form>
 
     <?php else: ?>

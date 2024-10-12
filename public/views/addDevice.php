@@ -8,11 +8,11 @@
 
     <script defer src="public/scripts/addDeviceForm.js" defer></script>
     <script defer src="public/scripts/validateDevice.js" defer></script>
-    <title>Add device</title>
+    <title><?php if(isset($title)){echo $title;}?></title>
 </head>
 <body>
     <div class = 'title'>
-        <h1>Add Device</h1>
+        <?php if(isset($title)){echo $title;}?>
     </div>
 
     <div class = 'device-type'>
@@ -25,39 +25,40 @@
             <div class="image-box phone"> </div>
         </div>
     </div>
+    <?php if (isset($device) && !empty($device)): ?>
+        <?php $attributes = $device->getColumnMapping(); ?>
 
-    <form action="/saveDevice" method="POST" class = 'device-properties'>
+        <form action="/createDevice" method="POST" class = 'device-properties'>
 
-        <input type="hidden" id="type" name="type" value = 'desktop'>
-            <text class = 'errorMessage' name = type></text>
-        <div class = 'set brand'>
-            <input required type="text" name="brand" placeholder="brand">
-        </div>
-        <text class = 'errorMessage' name = 'brand'></text>
+            <input type="hidden" id="type" name="type">
+                <text class = 'errorMessage' name = type></text>
 
-        <div class = 'set model'>
-            <input required type="text" name="model" placeholder="model">
-        </div>
-        <text class = 'errorMessage' name = 'model'></text>
+            <?php foreach ($attributes as $attribute => $label): ?>
 
-        <div class = 'set serial_number'>
-            <input required type="text" name="serial_number" placeholder="serial number">
-        </div>
-        <text class = 'errorMessage' name = 'serial_number'></text>
+                <?php if ($attribute != "type" && $attribute != "id"): ?>
 
-        <div class = 'set purchase_date'>
-            <input  required type="date" name="purchase_date" placeholder="purchase date MM/DD/YYYY">
-        </div>
-        <text class = 'errorMessage' name = 'purchase_date'></text>
+                    <div class = 'set <?php echo $attribute ?>'>
+                        <span>
+                            <?php echo $label ?>
+                        </span>
 
-        <div class = 'set primary_user'>
-            <input required type="text" name="primary_user" placeholder="primary user">
-        </div>
-        <text class = 'errorMessage' name = 'primary_user'></text>
+                        <?php if ($attribute !== "purchase_date"): ?>
+                            <input required type="text" name="<?php echo $attribute ?>"placeholder="click to enter">
+                        <?php else: ?>
+                            <input required type="date" name="<?php echo $attribute ?>"placeholder="click to enter">                       
+                        <?php endif; ?>
 
-        <button  class = 'submitForm' type="submit">Add device</button>
-    </form>
+                    </div>
+                    <text class = 'errorMessage' name = '<?php echo $attribute ?>'></text>
 
+                <?php endif; ?>
+
+            <?php endforeach ?>
+
+            <button  class = 'submitForm' type="submit">Add device</button>
+        </form>
+
+    <?php endif; ?>
 
 </body>
 </html>

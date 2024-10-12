@@ -10,26 +10,7 @@ class Equipment extends Model{
     public $purchase_date;
     public $primary_user;
 
-    
     private static $basePath = 'images/icons/';
-
-    public function __construct(
-        $id = null,
-        $type = null,
-        $brand = null,
-        $model = null,
-        $serial_number = null,
-        $purchase_date = null,
-        $primary_user = null
-    ) {
-        $this->id = $id;
-        $this->type = $type;
-        $this->brand = $brand;
-        $this->model = $model;
-        $this->serial_number = $serial_number;
-        $this->purchase_date = $purchase_date;
-        $this->primary_user = $primary_user;
-    }
 
     public function jsonSerialize() {
         return [
@@ -50,9 +31,9 @@ class Equipment extends Model{
         'type' => 'Type',
         'brand' => 'Brand',
         'model' => 'Model',
-        'serial_number' => 'SerialNumber',
-        'purchase_date' => 'PurchaseDate',
-        'primary_user' => 'PrimaryUser'
+        'serial_number' => 'Serial number',
+        'purchase_date' => 'Purchase date',
+        'primary_user' => 'Primary user'
         ];
     }
 

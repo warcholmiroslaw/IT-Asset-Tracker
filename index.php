@@ -6,7 +6,7 @@ require_once 'src/controllers/SecurityController.php';
 require_once 'Database.php';
 
 $routing = [
-    'devicelist' => [
+    'deviceList' => [
         'controller' => 'EquipmentController',
         'action' => 'deviceList',
         'access' => ['admin']
@@ -34,9 +34,9 @@ $routing = [
         'access' => ['admin']
     ],
 
-    'saveDevice' => [
+    'createDevice' => [
         'controller' => 'EquipmentController',
-        'action' => 'saveDevice',
+        'action' => 'createDevice',
         'access' => ['admin']
     ],
 
@@ -49,6 +49,12 @@ $routing = [
     'addDevice' => [
         'controller' => 'EquipmentController',
         'action' => 'addDevice',
+        'access' => ['admin']
+    ],
+
+    'deviceView' => [
+        'controller' => 'EquipmentController',
+        'action' => 'deviceView',
         'access' => ['admin']
     ],
     
@@ -95,14 +101,15 @@ $action = $action == null ? 'login': $action;
 switch($action){
     case "logout":
     case "login":
-    case "devicelist":
-    case "saveDevice":
+    case "deviceList":
+    case "createDevice":
     case "search":
     case "addDevice":
     case "editDevice":
     case "updateDevice":
     case "deleteDevice":
     case "userView":
+    case "deviceView":
 
     //    TODO check if user is authenticated and has access to system
         $roles = $routing[$action]['access'];

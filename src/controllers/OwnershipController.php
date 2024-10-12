@@ -18,31 +18,32 @@ class OwnershipController extends AppController{
 
     public function getUserDevices(){
         $user_id = $_SESSION['user']['id'];
-        $query ="Select u.name,
-                    u.surname,
-                    e.type, 
-                    e.brand, 
-                    e.model,
-                    e.serial_number,
-                    o.assigned_at,
-                    e.date_of_purchase
-                FROM ownership o
-                    JOIN equipment e ON e.id = o.equipment_id
-                    JOIN users u ON u.id = o.user_id
-                where u.id = {$user_id}";
-
-        $preparedQuery = $this->repository->connect()->prepare($query);
-
-        if ($preparedQuery === false) {
-            return false;
-        }
-
-        if (!$preparedQuery->execute()) {
-            return false;
-        }
-
-        // If SELECT is on the front of query it will pass condition 
-        return $preparedQuery->fetchAll(PDO::FETCH_ASSOC);
+        $devices = $this->equipmentRepository->getDevicesByCondition("id", $user_id);
+//        $user_id = $_SESSION['user']['id'];
+//        $query ="Select u.name,
+//                    u.surname,
+//                    e.type,
+//                    e.brand,
+//                    e.model,
+//                    e.serial_number,
+//                    o.assigned_at,
+//                    e.purchase_date
+//                FROM ownership o
+//                    JOIN equipment e ON e.id = o.equipment_id
+//                    JOIN users u ON u.id = o.user_id
+//                where u.id = {$user_id}";
+//
+//        $preparedQuery = $this->repository->connect()->prepare($query);
+//
+//        if ($preparedQuery === false) {
+//            return false;
+//        }
+//
+//        if (!$preparedQuery->execute()) {
+//            return false;
+//        }
+//
+//        return $preparedQuery->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function calculateDates ($devices) {
@@ -57,7 +58,7 @@ class OwnershipController extends AppController{
             };
 
 
-            $endOfAmortization = (new DateTime($device["date_of_purchase"]))->add(new DateInterval("P{$amortizationPeriod}Y"));
+            $endOfAmortization = (new DateTime($device["purchase_date"]))->add(new DateInterval("P{$amortizationPeriod}Y"));
             $device["replacement_date"] = $endOfAmortization->format('Y-m-d');;
             
             if ($endOfAmortization < new DateTime()) {

@@ -9,7 +9,7 @@
     <script src="public/scripts/logout.js" defer></script>
 
     <title>
-        <?php echo $title; ?>
+        <?php if(isset($title)){echo $title;}?>
     </title>
 </head>
 <body>
@@ -30,58 +30,41 @@
         <?php if (isset($devices) && !empty($devices)): ?>
         <?php foreach($devices as $device): ?>
 
-            <div class = "device">
-                <div class = "equipment-title">
-                    <h1><?php echo $device["type"] ?></h1>
+        <div class = "device">
+            <div class = "equipment-title">
+                <h1><?php echo $device->getType() ?></h1>
+            </div>
+            <div class = equipment>
+                <div class = equipment-head>
+                    <div class = "equipment-image">
+                        <img src="images/devices/<?php echo $device->getType();?>.jpg" alt="Laptop/Desktop image">
+                    </div>
+
+                    <div class = "default-information">
+                        <h1>Days to replacement date</h1>
+                        <h2>//TODO</h2>
+                    </div>
                 </div>
-                <div class = equipment>
-                    <div class = equipment-head>
-                        <div class = "equipment-image">
-                            <img src="images/devices/<?php echo $device['type'] ?>.jpg" alt="Laptop/Desktop image">
-                        </div>
+                <div class = "specification">
+                    <h1>
+                        Specification
+                    </h1>
 
-                        <div class = "default-information">
-                            <h1>Days to replacement date</h1>
-                            <h2><?php echo $device['time_to_replacement']; ?></h2>
-                        </div>
-                    </div>
-                    <div class = "specification">
-                        <h1>
-                            Specification
-                        </h1>
-
-                        <table>
-                                <tr>
-                                    <td>brand:</td>
-                                    <td><?php echo $device['brand']; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>model: </td>
-                                    <td><?php echo $device['model']; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Serial number: </td>
-                                    <td><?php echo $device['serial_number']; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>purchase date: </td>
-                                    <td><?php echo $device['date_of_purchase']; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>you use it since: </td>
-                                    <td><?php echo $device['assigned_at']; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>replacement date: </td>
-                                    <td><?php echo $device['replacement_date']; ?></td>
-                                </tr>
-                            </table>
-                    </div>
+                    <table>
+                        <?php $attributes = $device->getColumnMapping() ?>
+                        <?php foreach ($attributes as $attribute => $label): ?>
+                            <tr>
+                                <td><?php echo $label;?></td>
+                                <td><?php echo $device->$attribute;?></td>
+                            </tr>
+                        <?php endforeach ?>
+                    </table>
                 </div>
             </div>
-    <?php endforeach; ?>
-    <?php else: ?>
-        <p>Brak dostępnych elementów.</p>
-    <?php endif; ?>
+        </div>
+        <? endforeach; ?>
+        <?php else: ?>
+        <p class = "data-error">Can't load data</p>
+        <?php endif; ?>
 </body>
 </html>

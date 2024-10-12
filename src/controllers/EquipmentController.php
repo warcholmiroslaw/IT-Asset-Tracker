@@ -3,21 +3,17 @@
 require_once 'AppController.php';
 require_once 'OwnershipController.php';
 require_once __DIR__ . '/../models/Users.php';
-require_once __DIR__ . '/../repository/Repository.php';
 require_once __DIR__ . '/../../Database.php';
 
 
 class EquipmentController extends AppController { 
 
-    //private $equipmentData;
-    private $repository;
-    private const TABLE_NAME = "equipment";
     private $database;
+    private $previousOwnerId;
 
     public function __construct()
     {
         parent::__construct();
-        $this->repository = new Repository();
         $this->database = new Database();
     }
 
@@ -29,47 +25,68 @@ class EquipmentController extends AppController {
             unset($_SESSION['message']);
         }
 
-        // prepare query to get all devices saved in database and load on page
-        $query = $this->repository->prepareQueryForSelectAll(SELF::TABLE_NAME);
-
-        return $this->render('devicelist', [
-            "title"=> "device List", 
-            "items" => $this->repository->executeQuery($query, SELF::TABLE_NAME),
+        $this->render('deviceList', [
+            "title"=> "Device List",
+            "items" => $this->equipmentRepository->getAllDevices(),
             "message" => $message
         ]);
     }
 
     public function addDevice() {
-        return $this->render('addDevice');
+        $deviceSchema = new Equipment();
+
+        $this->render('addDevice', [
+            "title" => "Add Device",
+            "device" => $deviceSchema]);
     }
 
-    public function userView() {
-        $ownership = new OwnershipController();
+    public function deviceView() {
+        // TODO move database query to repository
+        if (isset($_GET['device'])) {
 
-        $queryResult = $ownership->getUserDevices();
-        $devices = $ownership->calculateDates($queryResult);
-        
-        return $this->render('userView', [
+            $serialNumber = $_GET['device'];
+
+            $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
+
+            $this->render('deviceView', [
+                "title" => "Device properties",
+                "device" => $device
+            ]);
+        } else {
+            echo "Device not specified.";
+        }
+            
+    }
+
+    //TODO edit structure of this funciton
+    public function userView() {
+
+        $devices = $this->equipmentRepository->getAllUserDevices($_SESSION['user']['id']);
+
+        $this->render('userView', [
             "title" => "Your equipment",
             "devices" => $devices
         ]);
+        exit();
     }
 
-        // delete device from database
+    // delete device from database
     public function deleteDevice() {
         if (isset($_GET['device'])) {
             
             $serialNumber = $_GET['device'];
-            
-            $query = $this->repository->prepareQueryToDelete(SELF::TABLE_NAME, 'serial_number');
-            $quantity = $this->repository->executeQuery($query, SELF::TABLE_NAME, [$serialNumber]);
-            
-            // after delete redirect to /devicelist with confirmation message
-            $_SESSION['message'] = "Device " . $serialNumber  . " deleted !";
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/devicelist");
-            exit();
 
+            if ($this->equipmentRepository->deleteDevice($serialNumber)) {
+                $_SESSION['message'] = "Device " . $serialNumber  . " deleted !";
+            }
+            else {
+                $_SESSION['message'] = "Device " . $serialNumber . " not deleted !";
+            }
+            
+            // after delete redirect to /deviceList with confirmation message
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/deviceList");
+            exit();
         } else {
             echo "Can't remove this device !";
         }
@@ -77,33 +94,20 @@ class EquipmentController extends AppController {
 
     // collect data and redirect to edit page
     public function editDevice() {
+
         if (isset($_GET['device'])) {
-            
+
+            // get all info about device that we want to edit and store previous owner for validation in updates
             $serialNumber = $_GET['device'];
-        
-            // $query 
-            $statement = $this->database->connect()->prepare("
-            SELECT  e.id, 
-                e.type, 
-                e.brand, 
-                e.model, 
-                e.serial_number, 
-                e.purchase_date,
-                CONCAT(u.name, ' ', u.surname) as primary_user
-                FROM public.equipment e
-                JOIN public.ownership o ON o.equipment_id = e.id
-                JOIN public.users u ON u.id = o.user_id
-                WHERE e.serial_number = :serialNumber");
-         
-            $statement->bindValue(":serialNumber", $serialNumber, PDO::PARAM_STR);
-            $statement->execute();
+            $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
+            $this->previousOwnerId = $device->getPrimaryUser();
 
-            $result = $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, SELF::TABLE_NAME);
-
-            return $this->render('editDevice', [
+            $this->render('editDevice', [
                 "title"=> "edit device", 
-                "items" => $result 
+                "device" => $device,
             ]);
+            exit();
+
         } else {
             echo "Device not specified.";
         }
@@ -113,133 +117,97 @@ class EquipmentController extends AppController {
     public function updateDevice() {
         if($this->isPost()) {
 
+            $euqipmentId = $_POST['id'];
+
             // check if user exists
-            $user_data = $_POST['primary_user'];
-            $user = new  Users();
+            $fullName = $_POST['primary_user'];
+            $userId = $this->userRepository->ifUserExists($fullName);
 
             // validation
-            $user_id = $user->ifUserExists($user_data);
-
-            if ($user_id) {
+            if ($userId) {
                 try {
                     // start transaction
                     $pdo = $this->database->connect();
                     $pdo->beginTransaction();
                     
-                    // update equipment table
-                    $statement = $pdo->prepare("
-                        UPDATE equipment
-                        SET brand = :brand,
-                            model = :model,
-                            serial_number = :serial_number,
-                            purchase_date = :purchase_date
-                        WHERE id = :id");
-                    
-                    $statement->bindParam(':brand', $_POST['brand']);
-                    $statement->bindParam(':model', $_POST['model']);
-                    $statement->bindParam(':serial_number', $_POST['serial_number']);
-                    $statement->bindParam(':purchase_date', $_POST['purchase_date']);
-                    $statement->bindParam(':id', $_POST['id']);
-                    $statement->execute();
-
-                    // update owhnership table
-                    $statement = $pdo->prepare("
-                        UPDATE ownership
-                        SET user_id = :user_id
-                        WHERE equipment_id = :equipment_id");
-            
-                    $statement->bindParam(':user_id', $user_id);
-                    $statement->bindParam(':equipment_id', $_POST['id']);
-                    $statement->execute();
-                    
-                    
-                    $pdo->commit();
+                    // update data in equipment and owner table
+                    if($this->equipmentRepository->updateDevice($_POST, $userId) && $this->ownershipRepository->updateOwnership($euqipmentId, $userId, $this->previousOwnerId))
+                    {
+                        // if both updates are correct commit changes
+                        $pdo->commit();
+                    }
             
                 } catch (Exception $e) {
-                   
+
                     if (isset($pdo) && $pdo->inTransaction()) {
                         $pdo->rollBack();
                     }
                     throw $e;
                 }
-                
                 $_SESSION['message'] = "Device " . $_POST['serial_number'] . " updated !";
-        
+
             }
             else {
                 // if user doesn't exist
                 $_SESSION['message'] = "User doesn't exists! Try again ";
             }
             $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/devicelist");
+            header("Location: {$url}/deviceList");
             exit();
         }
     }
 
-    public function saveDevice() {
+    public function createDevice() {
         if($this->isPost()) {
 
              // check if user exists
-             $user_data = $_POST['primary_user'];
-             $user = new  Users();
- 
-             // validation
-             $user_id = $user->ifUserExists($user_data);
- 
-             if ($user_id) {
-                try {
-                    // start transaction
-                    $pdo = $this->database->connect();
-                    $pdo->beginTransaction();
-                    
-                    // insert into equipment table
-                    $statement = $pdo->prepare("
-                        INSERT INTO equipment (type, brand, model, serial_number, purchase_date)
-                        VALUES (:type, :model, :brand, :serial_number, :purchase_date);");
-                    
-                    $statement->bindParam(':type', $_POST['type']);
-                    $statement->bindParam(':brand', $_POST['brand']);
-                    $statement->bindParam(':model', $_POST['model']);
-                    $statement->bindParam(':serial_number', $_POST['serial_number']);
-                    $statement->bindParam(':purchase_date', $_POST['purchase_date']);
-                    $statement->execute();
+            $userData = $_POST['primary_user'];
+            $userId = $this->userRepository->ifUserExists($userData);
 
-                    // insert into owhnership table
-                    $statement = $pdo->prepare("
-                        INSERT INTO ownership (user_id, equipment_id, status)
-                        VALUES (:user_id, :equipment_id, 'assigned');");
-            
-                    $statement->bindParam(':user_id', $user_id);
-                    $statement->bindParam(':equipment_id', $_POST['id']);
-                    $statement->execute();
-                    
-                    
-                    $pdo->commit();
-            
-                } catch (Exception $e) {
-                   
-                    if (isset($pdo) && $pdo->inTransaction()) {
-                        $pdo->rollBack();
-                    }
-                    throw $e;
-                }
+             // check if device is not in our database
+            $serialNumber = $_POST['serial_number'];
+            $uniqueDevice = $this->equipmentRepository->checkIfDeviceExists($serialNumber);
 
-                $_SESSION['message'] = "Device " . $_POST['serial_number'] . " added";
+            // validation
+            if ($userId) {
+                if (!$uniqueDevice) {
+                    try {
+                        // start transaction
+                        $pdo = $this->database->connect();
+                        $pdo->beginTransaction();
+
+                        // insert new device into equipment table
+                        $newDeviceId = $this->equipmentRepository->addDevice($_POST);
+
+                        // insert device ID and user ID into owhnership table
+                        $this->ownershipRepository->addOwner($newDeviceId, $userId);
+                        // commit changes
+                        $pdo->commit();
+
+                     } catch (Exception $e) {
+
+                         if (isset($pdo) && $pdo->inTransaction()) {
+                             $pdo->rollBack();
+                         }
+                         throw $e;
+                     }
+                    $_SESSION['message'] = "Device " . $_POST['serial_number'] . " added";
+                 }
+                 else {
+                     $_SESSION['message'] = "Device already exists !";
+                 }
              }
              else {
                 $_SESSION['message'] = "User doesn't exists! Try again ";
              }
-            
 
-            // session_start();
             $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/devicelist");
+            header("Location: {$url}/deviceList");
             exit();
         }
-
-        return $this->render('add-project', ["title"=> "ADD PROJECT | WDPAI"]);
     }
 
+    // search devices with by type or serial number
     public function search() {
         $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
@@ -247,7 +215,7 @@ class EquipmentController extends AppController {
         if ($contentType === "application/json") {
             $content = trim(file_get_contents("php://input"));
             $decoded = json_decode($content, true);
-            
+
             header('Content-type: application/json');
             http_response_code(200);
 
@@ -255,17 +223,15 @@ class EquipmentController extends AppController {
 
                 if ($decoded['type'] === 'All devices'){
 
-                    $query = $this->repository->prepareQueryForSelectAll(SELF::TABLE_NAME, 'type');
-                    echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME));
+                    echo json_encode($this->equipmentRepository->getAllDevices());
+                }
+                else {
 
-                }   else {
-                    $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'type');
-                    echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME, [$decoded['type']]));
+                    echo json_encode($this->equipmentRepository->getDevicesByCondition('type', $decoded['type']));
                 }
             } elseif (array_key_exists('search', $decoded)) {
 
-                $query = $this->repository->prepareQueryForSelect(SELF::TABLE_NAME, 'serial_number');
-                echo json_encode($this->repository->executeQuery($query, SELF::TABLE_NAME, [$decoded['search']]));
+                echo json_encode($this->equipmentRepository->getDevicesByCondition('serial_number', $decoded['search']));
             }
         }
     }

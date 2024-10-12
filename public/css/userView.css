@@ -91,6 +91,11 @@ h1{
     color: white;
 }
 
+.data-error{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
 
 @media (max-width: 800px ) {
     body {
