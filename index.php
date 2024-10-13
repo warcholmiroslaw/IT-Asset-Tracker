@@ -3,31 +3,22 @@
 require_once 'src/controllers/AppController.php';
 require_once 'src/controllers/EquipmentController.php';
 require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/UserController.php';
 require_once 'Database.php';
 
 $routing = [
+    // Equipment Controller
     'deviceList' => [
         'controller' => 'EquipmentController',
         'action' => 'deviceList',
         'access' => ['admin']
     ],
-
     'userView' => [
         'controller' => 'EquipmentController',
         'action' => 'userView',
         'access' => ['user', 'admin']
     ],
 
-    'login' => [
-        'controller' => 'SecurityController',
-        'action' => 'login',
-        'access' => ['admin', 'user']
-    ],
-    'logout' => [
-        'controller' => 'SecurityController',
-        'action' => 'logout',
-        'access' => ['admin', 'user']
-    ],
     'device' => [
         'controller' => 'EquipmentController',
         'action' => 'device',
@@ -72,6 +63,29 @@ $routing = [
         'controller' => 'EquipmentController',
         'action' => 'deleteDevice',
         'access' => ['admin']
+    ],
+    // Security Controller
+    'login' => [
+        'controller' => 'SecurityController',
+        'action' => 'login',
+        'access' => ['admin', 'user']
+    ],
+    'logout' => [
+        'controller' => 'SecurityController',
+        'action' => 'logout',
+        'access' => ['admin', 'user']
+    ],
+
+    // User Controller
+    'signUp' => [
+        'controller' => 'UserController',
+        'action' => 'signUp',
+        'access' => ['user']
+    ],
+    'addUser' => [
+        'controller' => 'UserController',
+        'action' => 'signUp',
+        'access' => ['user']
     ]
     ];
 
@@ -99,6 +113,14 @@ $action = explode("/", $path)[0];
 $action = $action == null ? 'login': $action;
 
 switch($action){
+    case "signUp":
+        $controller = new UserController();
+        $controller->signUp();
+        break;
+    case "addUser":
+        $controller = new UserController();
+        $controller->AddUser();
+        break;
     case "logout":
     case "login":
     case "deviceList":

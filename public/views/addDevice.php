@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="public/css/addDevice.css">
     <link rel="stylesheet" type="text/css" href="public/css/background.css">
 
-    <script defer src="public/scripts/addDeviceForm.js" defer></script>
-    <script defer src="public/scripts/validateDevice.js" defer></script>
+    <script  src="public/scripts/addDeviceForm.js" defer></script>
+    <script  src="public/scripts/validateDevice.js" defer></script>
     <title><?php if(isset($title)){echo $title;}?></title>
 </head>
 <body>

@@ -33,4 +33,29 @@ class UserRepository extends Database
         $statement->execute();
         return $statement->fetchObject( self::USERS_TABLE);
     }
+
+    public function createUser($newUser){
+        $statement = $this->database->connect()->prepare("
+            INSERT INTO users (name, surname, account_type, job_title, department, manager, phone_number, email, password)
+            VALUES (:name, :surname, :account_type, :job_title, :department, :manager, :phone_number, :email, :password)
+        ");
+        $newUser['password'] = $this->hashPassword($newUser['password']);
+
+//        echo $newUser;
+        $statement->bindParam(':name', $newUser['name']);
+        $statement->bindParam(':surname', $newUser['surname']);
+        $statement->bindParam(':account_type', $newUser['account_type']);
+        $statement->bindParam(':job_title', $newUser['job_title']);
+        $statement->bindParam(':department', $newUser['department']);
+        $statement->bindParam(':manager', $newUser['manager']);
+        $statement->bindParam(':phone_number', $newUser['phone_number']);
+        $statement->bindParam(':email', $newUser['email']);
+        $statement->bindParam(':password', $newUser['password']);
+        $statement->execute();
+    }
+
+    private function hashPassword($password){
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
 }

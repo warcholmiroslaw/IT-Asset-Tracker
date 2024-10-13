@@ -13,6 +13,8 @@ class Users extends Model{
     private $email;
     private $phone_number;
     private $password;
+
+    private $confirm_password;
     private $created_at;
 
     public function __construct(){
@@ -25,14 +27,15 @@ class Users extends Model{
         'id' => 'Id',
         'name' => 'Name',
         'surname' => 'Surname',
-        'account_type' => 'AccountType',
-        'job_title' => 'JobTitle',
+        'account_type' => 'Account Type',
+        'job_title' => 'Job Title',
         'department' => 'Department',
         'manager' => 'Manager',
         'email' => 'Email',
-        'phone_number' => 'PhoneNumber',
+        'phone_number' => 'Phone Number',
         'password' => 'Password',
-        'created_at' => 'CreatedAt'
+        'confirm_password' => 'Confirm Password',
+        'created_at' => 'Created At'
         ];
     }
 

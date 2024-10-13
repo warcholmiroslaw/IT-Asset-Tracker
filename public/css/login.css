@@ -57,7 +57,7 @@ input:focus{
 }
 
 #loginForm input,
-#loginForm button {
+button {
     width: 60%;
     padding: 10px;
     margin: 10px 0; 
@@ -65,6 +65,10 @@ input:focus{
     box-sizing: border-box; 
     justify-content: space-evenly;
     align-items: center;
+}
+
+.sign-up {
+    margin-left: 20%;
 }
 
 #loginForm input {
@@ -102,5 +106,10 @@ input:focus{
 
     #title {
         margin-top: 10%;
+    }
+
+    .sign-up{
+        margin-left: 0%;
+        width: 80%;
     }
 }

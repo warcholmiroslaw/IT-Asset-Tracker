@@ -25,6 +25,7 @@
             </div>
             <button type="submit">log in</button>
         </form>
+        <button class = "sign-up" type="submit" onclick="window.location.href='/signUp'">Sign up</button>
     </div>
 </body>
 </html>
