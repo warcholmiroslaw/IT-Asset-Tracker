@@ -16,5 +16,7 @@ Maximize your IT infrastructure efficiency with IT Asset Tracker!
 
 Login view
 
-![logowanie_mobile](https://github.com/user-attachments/assets/17d1a541-0432-4489-86a9-0a34646c7428)
-![logowanie](https://github.com/user-attachments/assets/c86ddff3-7dff-4698-9b8b-2a52e4b989b3)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/17d1a541-0432-4489-86a9-0a34646c7428" width="45%" />
+  <img src="https://github.com/user-attachments/assets/c86ddff3-7dff-4698-9b8b-2a52e4b989b3" width="45%" />
+</p> 
