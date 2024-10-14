@@ -12,3 +12,9 @@ IT Asset Tracker allows for customizable replacement intervals for different typ
 This way, your IT department can make informed, cost-effective decisions while maintaining optimal operational performance.
 
 Maximize your IT infrastructure efficiency with IT Asset Tracker!
+
+
+Login view
+
+![logowanie_mobile](https://github.com/user-attachments/assets/17d1a541-0432-4489-86a9-0a34646c7428)
+![logowanie](https://github.com/user-attachments/assets/c86ddff3-7dff-4698-9b8b-2a52e4b989b3)
