@@ -11,10 +11,13 @@ class EquipmentController extends AppController {
     private $database;
     private $previousOwnerId;
 
+    private $ownershipController;
+
     public function __construct()
     {
         parent::__construct();
         $this->database = new Database();
+        $this->ownershipController = new OwnershipController();
     }
 
     public function deviceList($message = '') {
@@ -47,10 +50,17 @@ class EquipmentController extends AppController {
             $serialNumber = $_GET['device'];
 
             $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
-
+            $dates = $this->ownershipController->calculateDates($device);
+//            var_dump($dates);
+//            exit();
+            $usagePercentage = $this->ownershipController->calculateUsage($device, $dates);
+//            var_dump($usagePercentage);
+//            exit();
             $this->render('deviceView', [
                 "title" => "Device properties",
-                "device" => $device
+                "device" => $device,
+                "dates" => $dates,
+                "usagePercentage" => $usagePercentage
             ]);
         } else {
             echo "Device not specified.";
@@ -62,10 +72,22 @@ class EquipmentController extends AppController {
     public function userView() {
 
         $devices = $this->equipmentRepository->getAllUserDevices($_SESSION['user']['id']);
+        $deviceData = [];
+        foreach ($devices as $device) {
+            $dates = $this->ownershipController->calculateDates($device);
+            $usagePercentage = $this->ownershipController->calculateUsage($device, $dates);
+
+            $deviceData[] = [
+                'device' => $device,
+                'dates' => $dates,
+                'usagePercentage' => $usagePercentage
+            ];
+        }
+
 
         $this->render('userView', [
             "title" => "Your equipment",
-            "devices" => $devices
+            "deviceData" => $deviceData
         ]);
         exit();
     }
@@ -171,10 +193,6 @@ class EquipmentController extends AppController {
             // validation
             if ($userId) {
                 if (!$uniqueDevice) {
-                    try {
-                        // start transaction
-                        $pdo = $this->database->connect();
-                        $pdo->beginTransaction();
 
                         // insert new device into equipment table
                         $newDeviceId = $this->equipmentRepository->addDevice($_POST);
@@ -182,15 +200,8 @@ class EquipmentController extends AppController {
                         // insert device ID and user ID into owhnership table
                         $this->ownershipRepository->addOwner($newDeviceId, $userId);
                         // commit changes
-                        $pdo->commit();
 
-                     } catch (Exception $e) {
 
-                         if (isset($pdo) && $pdo->inTransaction()) {
-                             $pdo->rollBack();
-                         }
-                         throw $e;
-                     }
                     $_SESSION['message'] = "Device " . $_POST['serial_number'] . " added";
                  }
                  else {

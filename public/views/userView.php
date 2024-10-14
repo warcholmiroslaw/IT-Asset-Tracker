@@ -27,42 +27,52 @@
             </h1>
         </div>
 
-        <?php if (isset($devices) && !empty($devices)): ?>
-        <?php foreach($devices as $device): ?>
+        <?php if (isset($deviceData) && !empty($deviceData)): ?>
+            <div class="devices">
+                <?php foreach ($deviceData as $data): ?>
+                    <div class="device">
+                        <div class="equipment-title">
+                            <h1><?php echo $data['device']->getType(); ?></h1>
+                        </div>
+                        <div class="equipment">
+                            <div class="equipment-head">
+                                <div class="equipment-image">
+                                    <img src="images/devices/<?php echo $data['device']->getType(); ?>.jpg" alt="Laptop/Desktop image">
+                                </div>
 
-        <div class = "device">
-            <div class = "equipment-title">
-                <h1><?php echo $device->getType() ?></h1>
-            </div>
-            <div class = equipment>
-                <div class = equipment-head>
-                    <div class = "equipment-image">
-                        <img src="images/devices/<?php echo $device->getType();?>.jpg" alt="Laptop/Desktop image">
+                                <div class="default-information">
+                                    <?php if (isset($data['dates']) && !empty($data['dates'])): ?>
+                                        <h1>Days to replacement date</h1>
+                                        <h3><?php echo $data['dates']['endOfAmortization']; ?></h3>
+                                        <h2><?php echo $data['dates']['timeToReplacement']; ?></h2>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="specification">
+                                <div class="specification-info">
+                                    <h1>Specification</h1>
+                                    <table>
+                                        <?php $attributes = $data['device']->getColumnMapping(); ?>
+                                        <?php foreach ($attributes as $attribute => $label): ?>
+                                            <tr>
+                                                <td><?php echo $label; ?></td>
+                                                <td><?php echo $data['device']->$attribute; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </table>
+                                </div>
+                                <div class='productive-use'>
+                                    <h1>Productive Use: </h1>
+                                    <?php if (isset($data['usagePercentage'])): ?>
+                                        <h1><?php echo $data['usagePercentage']; ?>%</h1>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class = "default-information">
-                        <h1>Days to replacement date</h1>
-                        <h2>//TODO</h2>
-                    </div>
-                </div>
-                <div class = "specification">
-                    <h1>
-                        Specification
-                    </h1>
-
-                    <table>
-                        <?php $attributes = $device->getColumnMapping() ?>
-                        <?php foreach ($attributes as $attribute => $label): ?>
-                            <tr>
-                                <td><?php echo $label;?></td>
-                                <td><?php echo $device->$attribute;?></td>
-                            </tr>
-                        <?php endforeach ?>
-                    </table>
-                </div>
+                <?php endforeach; ?>
             </div>
-        </div>
-        <? endforeach; ?>
+
         <?php else: ?>
         <p class = "data-error">Can't load data</p>
         <?php endif; ?>

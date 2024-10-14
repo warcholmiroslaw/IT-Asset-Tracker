@@ -16,9 +16,9 @@
 }
 .default-information{
     padding: 10px;
-    text-align: left;
-    align-items: left;
-    color: red;
+    text-align: center;
+    align-items: center;
+    color: black;
     border-radius: 20px;
     width: 50%;
     max-height: 100%;
@@ -26,8 +26,9 @@
     font-size: medium;
     box-sizing: border-box;
 }
-.default-information h1{
+.default-information h1, h2{
     margin-top: 0;
+    color: red;
 }
 .equipment-head{
     display: flex;
@@ -39,21 +40,6 @@
     overflow: hidden;
 }
 
-.specification{
-    margin-top: 20px;
-    display: block;
-    background-color: white;
-    color: black;
-    border-radius: 20px;
-    text-align: left;
-    justify-content: center;
-    align-items: left;
-    padding: 20px;
-    box-sizing: border-box;
-    height: calc(70% - 20px);
-    width: 100%;
-    overflow: hidden;
-}
 .equipment-title-main{
     width: 100%;
     display: flex;
@@ -97,6 +83,40 @@ h1{
     text-align: center;
 }
 
+.specification{
+    display: flex;
+    justify-content: space-between; /* Umożliwia rozmieszczenie elementów po lewej i prawej stronie */
+    align-items: flex-start;
+    margin-top: 20px;
+
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    text-align: left;
+
+    padding: 20px;
+    box-sizing: border-box;
+    height: calc(70% - 20px);
+    width: 100%;
+    overflow: hidden;
+}
+
+.specification-info{
+    width: 50%;
+}
+.productive-use {
+    width: 50%;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+
+
 @media (max-width: 800px ) {
     body {
         padding-top: 10%;
@@ -133,6 +153,12 @@ h1{
         padding-top: 0%;
         padding-bottom: 0%;
         height: auto;
+        display: block;
+    }
+    .specification-info,
+        .productive-use {
+        width: 100%;
+        margin-bottom: 10px;
     }
 
     .equipment-head {

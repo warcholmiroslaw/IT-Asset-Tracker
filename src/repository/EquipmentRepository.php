@@ -11,14 +11,10 @@ class EquipmentRepository extends Database
         $this->database = new Database();
     }
 
-    public function getDeviceById($id){
-
-    }
-
     public function addDevice($device){
         $statement = $this->database->connect()->prepare("INSERT INTO equipment 
                                 (type, brand, model, serial_number, purchase_date)
-                        VALUES (:type, :model, :brand, :serialNumber, :purchaseDate)
+                        VALUES (:type, :brand, :model, :serialNumber, :purchaseDate)
                         returning id;");
 
         $statement->bindParam(':type', $device['type']);
@@ -43,7 +39,7 @@ class EquipmentRepository extends Database
                 CONCAT(u.name, ' ', u.surname) as primary_user
                 FROM public.equipment e
                 JOIN public.ownership o ON o.equipment_id = e.id
-                JOIN public.users u ON u.id = o.user_id");
+                JOIN public.users u ON u.id = o.user_id AND o.status = 'assigned'");
 
         $statement->execute();
 
@@ -62,7 +58,7 @@ class EquipmentRepository extends Database
                 FROM public.equipment e
                 JOIN public.ownership o ON o.equipment_id = e.id
                 JOIN public.users u ON u.id = o.user_id
-                WHERE o.user_id = :user_id");
+                WHERE o.user_id = :user_id AND o.status = 'assigned';");
         $statement->bindParam(':user_id', $user_id);
         $statement->execute();
 
@@ -82,7 +78,7 @@ class EquipmentRepository extends Database
                 FROM public.equipment e
                 JOIN public.ownership o ON o.equipment_id = e.id
                 JOIN public.users u ON u.id = o.user_id
-                WHERE e.$column = :value;");
+                WHERE e.$column = :value AND o.status = 'assigned';");
 
         $statement->bindParam(":value", $value);
         $statement->execute();

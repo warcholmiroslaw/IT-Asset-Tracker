@@ -7,10 +7,6 @@ abstract class Model {
     const RULE_UNIQUE = 'unique';
     const RULE_EXISTS = 'exists';
 
-    // public array $errors = [];
-
-
-
     abstract public function getColumnMapping();
 
     public function getAttributes(): array {
@@ -34,9 +30,5 @@ abstract class Model {
                 $this->{$key} = $value;
             }
         }
-    }
-
-    public function validate(){
-        return;
     }
 }

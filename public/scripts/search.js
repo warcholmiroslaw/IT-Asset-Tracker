@@ -59,7 +59,7 @@ async function itemClickHandler(e) {
 
     const data = { type: e.target.textContent };
     const devices = await fetchDevices(data);
-
+    console.log(devices);
     renderDevices(devices);
 
     if (devices.length) {
@@ -110,6 +110,9 @@ function displayDevice(device) {
 
     const buttonDevice = document.createElement('button');
     buttonDevice.classList.add('button-device');
+    buttonDevice.addEventListener('click', function() {
+        window.location.href = `/deviceView?device=${device.serial_number}`;
+    });
     
     const icon = document.createElement('img');
     icon.src = chooseImage(device.type);

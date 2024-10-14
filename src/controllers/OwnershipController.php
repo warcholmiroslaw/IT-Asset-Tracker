@@ -4,69 +4,55 @@ require_once 'AppController.php';
 require_once __DIR__."/../../Database.php";
 
 class OwnershipController extends AppController{
-
-    protected $repository;
     protected $phoneLifeCycle = 2;
-    protected $desktopLifeCycle = 2;
+    protected $desktopLifeCycle = 5;
     protected $laptopLifeCycle = 3;
 
-    public function __construct(){
-        parent::__construct();
-        $this->repository = new Database();
-    }
-
-
-    public function getUserDevices(){
-        $user_id = $_SESSION['user']['id'];
-        $devices = $this->equipmentRepository->getDevicesByCondition("id", $user_id);
-//        $user_id = $_SESSION['user']['id'];
-//        $query ="Select u.name,
-//                    u.surname,
-//                    e.type,
-//                    e.brand,
-//                    e.model,
-//                    e.serial_number,
-//                    o.assigned_at,
-//                    e.purchase_date
-//                FROM ownership o
-//                    JOIN equipment e ON e.id = o.equipment_id
-//                    JOIN users u ON u.id = o.user_id
-//                where u.id = {$user_id}";
-//
-//        $preparedQuery = $this->repository->connect()->prepare($query);
-//
-//        if ($preparedQuery === false) {
-//            return false;
-//        }
-//
-//        if (!$preparedQuery->execute()) {
-//            return false;
-//        }
-//
-//        return $preparedQuery->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function calculateDates ($devices) {
-        foreach($devices as &$device){
-            switch($device['type']){
+    public function calculateDates ($device) {
+            $date = [];
+            switch($device->getType()){
                 case "phone":
                     $amortizationPeriod = $this->phoneLifeCycle;
+                    break;
                 case "laptop":
                     $amortizationPeriod = $this->laptopLifeCycle;
+                    break;
                 case "desktop":
-                    $amortizationPeriod = $this->desktopLifeCycle;         
+                    $amortizationPeriod = $this->desktopLifeCycle;
+                    break;
             };
 
 
-            $endOfAmortization = (new DateTime($device["purchase_date"]))->add(new DateInterval("P{$amortizationPeriod}Y"));
-            $device["replacement_date"] = $endOfAmortization->format('Y-m-d');;
-            
-            if ($endOfAmortization < new DateTime()) {
-                $device["time_to_replacement"] = 'Replace your device now !';
+            $date['endOfAmortization'] = (new DateTime($device->getPurchaseDate()))->add(new DateInterval("P{$amortizationPeriod}Y"));
+
+            if ($date['endOfAmortization'] < new DateTime()) {
+                $date["timeToReplacement"] = 'Replace your device now !';
             } else {
-                $device["time_to_replacement"] = (new DateTime())->diff($endOfAmortization)->days . " days";
+                $date["timeToReplacement"] = (new DateTime())->diff($date['endOfAmortization'])->days . " days";
             }
+        $date['endOfAmortization'] = $date['endOfAmortization']->format('Y-m-d');
+
+        return $date;
+    }
+
+    public function calculateUsage($device, $date) {
+
+        $startDate = new DateTime($device->getPurchaseDate());
+        $endDate = new DateTime($date['endOfAmortization']);
+        $currentDate = new DateTime();
+
+        if ($endDate > $currentDate) {
+            $usagePeriod = $currentDate->diff($startDate)->days; // do teraz
+        } else {
+            $usagePeriod = $endDate->diff($startDate)->days; // do końca amortyzacji
         }
-        return $devices;
+
+        if ($usagePeriod <= 0) {
+            return 0;
+        }
+
+        $usageDays = (int)$this->ownershipRepository->getUsageDays($device->getId());
+
+        return (int)(($usageDays / $usagePeriod) * 100);
     }
 }

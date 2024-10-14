@@ -21,7 +21,6 @@ class Users extends Model{
         
     }
 
-
     public function getColumnMapping(): array {
         return [
         'id' => 'Id',

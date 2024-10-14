@@ -127,6 +127,7 @@ input:focus{
 
 @media screen and (max-width: 900px) {
     body {
+        margin-top: 10%;
         display: block;
         justify-content: center;
         align-items: center;
@@ -145,7 +146,7 @@ input:focus{
     }
 
     .set {
-        height: 40px;
+        height: 60px;
         width: 60%;
         size: 1.2em;
     }
@@ -153,4 +154,8 @@ input:focus{
     .submitForm {
         width: 60%;
     }
+    .title {
+        font-size: 40px;
+    }
+
 }

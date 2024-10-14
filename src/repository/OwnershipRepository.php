@@ -52,4 +52,28 @@ class OwnershipRepository extends Database
         // set new ownership
         return $this->addOwner($equipmentId, $userId);
     }
+
+    // get number of days when device was assigned to user
+    public function getUsageDays($equipmentId){
+        $statement = $this->database->connect()->prepare("SELECT
+                equipment_id,
+                SUM(
+                    CASE
+                        WHEN returned_at IS NOT NULL THEN
+                            FLOOR(EXTRACT(EPOCH FROM (returned_at - assigned_at)) / 86400)
+                        ELSE
+                            FLOOR(EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - assigned_at)) / 86400)  
+                    END
+                ) AS total_days_used
+            FROM
+                ownership
+            WHERE
+                equipment_id = :equipmentId
+            GROUP BY
+                equipment_id;");
+
+        $statement->bindParam(':equipmentId', $equipmentId);
+        $statement->execute();
+        return $statement->fetchColumn(1);
+    }
 }

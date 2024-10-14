@@ -14,7 +14,7 @@
 <?php if (isset($user) && !empty($user)): ?>
     <?php $attributes = $user->getColumnMapping(); ?>
 
-    <form action = '/signUp' method="POST" class = 'device-properties'>
+    <form action = '/addUser' method="POST" class = 'device-properties'>
 
         <?php foreach ($attributes as $attribute => $label): ?>
 

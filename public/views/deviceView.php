@@ -39,24 +39,35 @@
                         </div>
 
                         <div class = "default-information">
+                            <?php if (isset($dates) && !empty($dates)): ?>
                             <h1>Days to replacement date</h1>
-                            <h2>//TODO</h2>
+                            <h3><?php echo $dates['endOfAmortization']; ?></h3>
+                            <h2><?php echo $dates['timeToReplacement']; ?></h2>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class = "specification">
-                        <h1>
-                            Specification
-                        </h1>
+                        <div class = "specification-info">
+                            <h1>
+                                Specification
+                            </h1>
 
-                        <table>
-                            <?php $attributes = $device->getColumnMapping() ?>
-                            <?php foreach ($attributes as $attribute => $label): ?>
-                                <tr>
-                                    <td><?php echo $label;?></td>
-                                    <td><?php echo $device->$attribute;?></td>
-                                </tr>
-                            <?php endforeach ?>
+                            <table>
+                                <?php $attributes = $device->getColumnMapping() ?>
+                                <?php foreach ($attributes as $attribute => $label): ?>
+                                    <tr>
+                                        <td><?php echo $label;?></td>
+                                        <td><?php echo $device->$attribute;?></td>
+                                    </tr>
+                                <?php endforeach ?>
                             </table>
+                        </div>
+                        <div class = 'productive-use'>
+                            <h1>Productive Use: </h1>
+                            <?php if (isset($usagePercentage)): ?>
+                                <h1><?php echo $usagePercentage;?>%</h1>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
