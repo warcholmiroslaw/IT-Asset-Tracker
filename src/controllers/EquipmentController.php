@@ -36,6 +36,50 @@ class EquipmentController extends AppController {
     }
 
     public function addDevice() {
+
+        if($this->isPost()) {
+
+            // check if user exists
+            $userData = $_POST['primary_user'];
+            $userId = $this->userRepository->ifUserExists($userData);
+
+            // check if device is not in our database
+            $serialNumber = $_POST['serial_number'];
+            $uniqueDevice = $this->equipmentRepository->checkIfDeviceExists($serialNumber);
+
+            // validation
+            if ($userId) {
+                if (!$uniqueDevice) {
+
+                    // insert new device into equipment table
+                    $newDeviceId = $this->equipmentRepository->addDevice($_POST);
+
+                    // insert device ID and user ID into owhnership table
+                    $this->ownershipRepository->addOwner($newDeviceId, $userId);
+                    // commit changes
+
+
+                    $_SESSION['message'] = "Device " . $_POST['serial_number'] . " added";
+
+                    $url = "http://$_SERVER[HTTP_HOST]";
+                    header("Location: {$url}/deviceList");
+                    exit();
+                }
+                else {
+                    $errors['serial_number'] = "Device with that serial number already exists !";
+                }
+            }
+            else {
+                $errors['primary_user'] = "User doesn't exists!";
+            }
+            $deviceSchema = new Equipment();
+            $this->render('addDevice', [
+                "title" => "Add Device",
+                "device" => $deviceSchema,
+                "errors" => $errors]);
+            exit();
+        }
+
         $deviceSchema = new Equipment();
 
         $this->render('addDevice', [
@@ -44,18 +88,16 @@ class EquipmentController extends AppController {
     }
 
     public function deviceView() {
-        // TODO move database query to repository
+
         if (isset($_GET['device'])) {
 
             $serialNumber = $_GET['device'];
 
             $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
             $dates = $this->ownershipController->calculateDates($device);
-//            var_dump($dates);
-//            exit();
+
             $usagePercentage = $this->ownershipController->calculateUsage($device, $dates);
-//            var_dump($usagePercentage);
-//            exit();
+
             $this->render('deviceView', [
                 "title" => "Device properties",
                 "device" => $device,
@@ -179,44 +221,6 @@ class EquipmentController extends AppController {
         }
     }
 
-    public function createDevice() {
-        if($this->isPost()) {
-
-             // check if user exists
-            $userData = $_POST['primary_user'];
-            $userId = $this->userRepository->ifUserExists($userData);
-
-             // check if device is not in our database
-            $serialNumber = $_POST['serial_number'];
-            $uniqueDevice = $this->equipmentRepository->checkIfDeviceExists($serialNumber);
-
-            // validation
-            if ($userId) {
-                if (!$uniqueDevice) {
-
-                        // insert new device into equipment table
-                        $newDeviceId = $this->equipmentRepository->addDevice($_POST);
-
-                        // insert device ID and user ID into owhnership table
-                        $this->ownershipRepository->addOwner($newDeviceId, $userId);
-                        // commit changes
-
-
-                    $_SESSION['message'] = "Device " . $_POST['serial_number'] . " added";
-                 }
-                 else {
-                     $_SESSION['message'] = "Device already exists !";
-                 }
-             }
-             else {
-                $_SESSION['message'] = "User doesn't exists! Try again ";
-             }
-
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/deviceList");
-            exit();
-        }
-    }
 
     // search devices with by type or serial number
     public function search() {

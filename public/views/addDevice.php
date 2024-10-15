@@ -28,7 +28,7 @@
     <?php if (isset($device) && !empty($device)): ?>
         <?php $attributes = $device->getColumnMapping(); ?>
 
-        <form action="/createDevice" method="POST" class = 'device-properties'>
+        <form action="/addDevice" method="POST" class = 'device-properties'>
 
             <input type="hidden" id="type" name="type">
                 <text class = 'errorMessage' name = type></text>
@@ -43,13 +43,22 @@
                         </span>
 
                         <?php if ($attribute !== "purchase_date"): ?>
-                            <input required type="text" name="<?php echo $attribute ?>"placeholder="click to enter">
+                            <input required type="text" name="<?php echo $attribute ?>"
+                               value = "<?php if (isset($_POST[$attribute])) { echo htmlspecialchars($_POST[$attribute]); } ?>"
+                               placeholder="click to enter">
                         <?php else: ?>
-                            <input required type="date" name="<?php echo $attribute ?>"placeholder="click to enter">                       
+                            <input required type="date" name="<?php echo $attribute ?>"
+                               value = "<?php if (isset($_POST[$attribute])) { echo htmlspecialchars($_POST[$attribute]); } ?>"
+                               placeholder="click to enter">
+
                         <?php endif; ?>
 
                     </div>
-                    <text class = 'errorMessage' name = '<?php echo $attribute ?>'></text>
+                    <text class = 'errorMessage' name = '<?php echo $attribute ?>'>
+                        <?php if (isset($errors[$attribute])): ?>
+                            <?php echo htmlspecialchars($errors[$attribute]); ?>
+                        <?php endif; ?>
+                    </text>
 
                 <?php endif; ?>
 

@@ -1,36 +1,43 @@
 const fields = [
-    { 
-        name: 'type', 
-        label: 'Type', 
-        type: 'text', 
-        required: true },
-    { 
-        name: 'brand', 
-        label: 'Brand', 
-        type: 'text', 
-        required: true },
-    { 
-        name: 'model',
-        label: 'Model', 
+    {
+        name: 'type',
+        error: 'Select icon with device',
         type: 'text',
-        pattern: "[A-Z][a-z0-9]*", 
-        required: true },
-    { 
-        name: 'serial_number', 
-        label: 'Serial number', 
-        type: 'text', 
-        required: true},
-    { 
-        name: 'purchase_date', 
-        label: 'Purchase date', 
+        required: true
+    },
+    {
+        name: 'brand',
+        error: 'Brand should start with an uppercase letter.',
+        type: 'text',
+        pattern: "^[A-Z][a-zA-Z0-9]*(\\s[A-Z][a-zA-Z0-9]*)*$",
+        required: true
+    },
+    {
+        name: 'model',
+        error: 'Model should start with an uppercase letter followed by letters or numbers.',
+        type: 'text',
+        pattern: "[A-Z][a-z0-9]*",
+        required: true
+    },
+    {
+        name: 'serial_number',
+        error: 'Serial number is required.',
+        type: 'text',
+        required: true
+    },
+    {
+        name: 'purchase_date',
+        error: 'Purchase date is required.',
         type: 'date',
-        required: true },
+        required: true
+    },
     {
         name: 'primary_user',
-        label: 'Primary user',
+        error: 'Primary user should be in the format: "Firstname Lastname".',
         type: 'text',
         pattern: "^[A-Z][a-z]*\\s[A-Z][a-z]*$",
-        required: true}
+        required: true
+    }
 ];
 
 
@@ -60,7 +67,7 @@ async function fetchErrors(data) {
 
 function init() {
     form = document.querySelector('form')
-  
+
     if (form) {
         form.addEventListener('submit', handleSubmit);
     }
@@ -68,20 +75,20 @@ function init() {
 
 
 function handleSubmit(e) {
-    
+
     e.preventDefault();
     let errors = false;
 
     fields.forEach(function (field) {
             const value = form.elements[field.name].value;
             var errorMessageText = form.querySelector(`.errorMessage[name="${field.name}"]`);
-            console.log(errorMessageText)
+            console.log(errorMessageText);
             errorMessageText.innerHTML   = '';
 
 
             if (field.required) {
                 if (value.length === 0) {
-                    errorMessageText.innerHTML = "Pole nie moze byc puste!";
+                    errorMessageText.innerHTML = "This field cannot be empty!";
                     errors = true;
                 }
             }
@@ -90,8 +97,8 @@ function handleSubmit(e) {
                 const reg = new RegExp(field.pattern);
                 console.log(value);
                 if (!reg.test(value)) {
-                    errorMessageText.innerHTML = ('Dane zawierają niedozwolone znaki lub nie są zgodne z przyjętym wzorem.');
-                    
+                    errorMessageText.innerHTML = field.error;
+
                     errors = true;
                 }
             }
