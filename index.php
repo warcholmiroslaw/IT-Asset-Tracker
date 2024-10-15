@@ -25,12 +25,6 @@ $routing = [
         'access' => ['admin']
     ],
 
-    'createDevice' => [
-        'controller' => 'EquipmentController',
-        'action' => 'createDevice',
-        'access' => ['admin']
-    ],
-
     'search' => [
         'controller' => 'EquipmentController',
         'action' => 'search',
@@ -81,11 +75,6 @@ $routing = [
         'controller' => 'UserController',
         'action' => 'signUp',
         'access' => ['user']
-    ],
-    'addUser' => [
-        'controller' => 'UserController',
-        'action' => 'signUp',
-        'access' => ['user']
     ]
     ];
 
@@ -117,14 +106,9 @@ switch($action){
         $controller = new UserController();
         $controller->signUp();
         break;
-    case "addUser":
-        $controller = new UserController();
-        $controller->AddUser();
-        break;
     case "logout":
     case "login":
     case "deviceList":
-    case "createDevice":
     case "search":
     case "addDevice":
     case "editDevice":

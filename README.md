@@ -231,3 +231,35 @@ This table establishes a many-to-many relationship between users and equipment, 
 
 <h1>How to start app?</h1>
 
+To run this application, please ensure you have Docker installed on your computer. Follow these steps:
+
+1. **Clone the Repository**  
+   Download the repository from GitHub to your local machine.
+
+2. **Navigate to the Project Folder**  
+   Open your terminal and change the directory to the project folder where the `docker-compose.yml` file is located.
+
+3. **Build and Run the Application**  
+   Execute the following command to build and run the application:
+   ```bash
+   docker-compose up --build
+   ```
+4. **Access pgAdmin**
+
+   Once the application is running, access  [pgAdmin](http://localhost:5050/) using your web browser. Log in with the following credentials:
+
+   - `Email: admin@example.com`
+   - `Password: admin`
+   
+
+5. **Insert a New User Record**
+
+   After logging in to pgAdmin, you can insert a new user record using the SQL query below:
+
+```sql
+  INSERT INTO public.users (name, surname, account_type, job_title, department, email, phone_number, password)
+ VALUES ('John', 'Johnson', 'admin', 'IT Director', 'IT', 'admin@example.com', '532432321', '$2b$12$IuwjSCDNLGindigXK0xvJ./j49SvCXJ/3Ac1fWfRSdPek2WaOHf6');
+```
+6. **Admin Access**
+
+   After adding the user, you can manage devices from the admin panel. Regular users can register themselves through the sign up page.

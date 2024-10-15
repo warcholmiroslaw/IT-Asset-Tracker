@@ -2,6 +2,7 @@ const fields = [
     {
         name: 'type',
         error: 'Select icon with device',
+        pattern: "^[a-z]+$",
         type: 'text',
         required: true
     },
@@ -21,8 +22,9 @@ const fields = [
     },
     {
         name: 'serial_number',
-        error: 'Serial number is required.',
+        error: 'Serial number must contain only uppercase letters and digits.',
         type: 'text',
+        pattern: "^[A-Z0-9]+$",
         required: true
     },
     {
@@ -48,23 +50,6 @@ var errorMessage = document.querySelector('#errorMessage');
 const errors = [];
 
 
-async function fetchErrors(data) {
-    const response = await fetch("/addDevice", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-
-    return await response.json();
-}
-
-
 function init() {
     form = document.querySelector('form')
 
@@ -85,7 +70,6 @@ function handleSubmit(e) {
             console.log(errorMessageText);
             errorMessageText.innerHTML   = '';
 
-
             if (field.required) {
                 if (value.length === 0) {
                     errorMessageText.innerHTML = "This field cannot be empty!";
@@ -104,7 +88,7 @@ function handleSubmit(e) {
             }
 
         });
-    if (errors == false) {
+    if (errors === false) {
         alert('Dane zostały wypełnione prawidłowo!');
         e.target.submit();
         //clearForm();

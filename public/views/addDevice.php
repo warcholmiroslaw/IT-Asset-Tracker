@@ -21,8 +21,8 @@
 
         <div class = 'images-container'>
             <div class="image-box desktop show"></div>
-            <div class="image-box laptop"> </div>
-            <div class="image-box phone"> </div>
+            <div class="image-box laptop"></div>
+            <div class="image-box phone"></div>
         </div>
     </div>
     <?php if (isset($device) && !empty($device)): ?>

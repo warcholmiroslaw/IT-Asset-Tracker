@@ -158,23 +158,57 @@ class EquipmentController extends AppController {
 
     // collect data and redirect to edit page
     public function editDevice() {
+        if($this->isPost()) {
 
-        if (isset($_GET['device'])) {
+            $euqipmentId = $_POST['id'];
 
-            // get all info about device that we want to edit and store previous owner for validation in updates
-            $serialNumber = $_GET['device'];
-            $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
-            $this->previousOwnerId = $device->getPrimaryUser();
+            // check if user exists
+            $fullName = $_POST['primary_user'];
+            $userId = $this->userRepository->ifUserExists($fullName);
 
-            $this->render('editDevice', [
-                "title"=> "edit device", 
-                "device" => $device,
-            ]);
+            // validation
+            if ($userId) {
+                try {
+                    // start transaction
+                    $pdo = $this->database->connect();
+                    $pdo->beginTransaction();
+
+                    // update data in equipment and owner table
+                    if($this->equipmentRepository->updateDevice($_POST, $userId) && $this->ownershipRepository->updateOwnership($euqipmentId, $userId, $this->previousOwnerId))
+                    {
+                        // if both updates are correct commit changes
+                        $pdo->commit();
+                    }
+
+                } catch (Exception $e) {
+
+                    if (isset($pdo) && $pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    throw $e;
+                }
+                $_SESSION['message'] = "Device " . $_POST['serial_number'] . " updated !";
+
+            }
+            else {
+                // if user doesn't exist
+                $_SESSION['message'] = "User doesn't exists!";
+            }
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/deviceList");
             exit();
-
-        } else {
-            echo "Device not specified.";
         }
+
+        // get all info about device that we want to edit and store previous owner for validation in updates
+        $serialNumber = $_GET['device'];
+        $device = $this->equipmentRepository->getDeviceBySerialNumber($serialNumber);
+        $this->previousOwnerId = $device->getPrimaryUser();
+
+        $this->render('editDevice', [
+            "title"=> "edit device",
+            "device" => $device,
+        ]);
+        exit();
     }
 
     // edit data, change rows in database and then redirect to device list
