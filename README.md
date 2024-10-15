@@ -229,3 +229,5 @@ This table establishes a many-to-many relationship between users and equipment, 
 - **PostgreSQL**: The relational database management system for storing data.
 - **Nginx**: Web server used to serve the application.
 
+<h1>How to start app?</h1>
+

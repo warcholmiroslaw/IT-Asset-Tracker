@@ -1,67 +1,66 @@
 const fields = [
     {
         name: 'name',
-        label: 'First Name',
+        error: 'Must start with an uppercase letter and contain only letters',
         type: 'text',
         pattern: "^[A-Z][a-z]*$",
         required: true
     },
     {
         name: 'surname',
-        label: 'Surname',
+        error: 'Must start with an uppercase letter and contain only letters',
         type: 'text',
         pattern: "^[A-Z][a-z]*$",
         required: true
     },
     {
         name: 'job_title',
-        label: 'Job Title',
+        error: 'Job Title is required',
         type: 'text',
         required: true
     },
     {
         name: 'department',
-        label: 'Department',
+        error: 'Department is required',
         type: 'text',
         required: true
     },
     {
         name: 'manager',
-        label: 'Manager',
+        error: 'Format: "Firstname Lastname", both should start with uppercase',
         type: 'text',
         pattern: "^[A-Z][a-z]*\\s[A-Z][a-z]*$",
         required: true
     },
     {
         name: 'email',
-        label: 'Email',
+        error: 'Invalid email format',
         type: 'email',
         pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
         required: true
     },
     {
         name: 'phone_number',
-        label: 'Phone Number',
+        error: 'Invalid phone number format. Example: +48783092092 or 783092092',
         type: 'tel',
         pattern: "^\\+?[0-9]{7,15}$",
         required: true
     },
     {
         name: 'password',
-        label: 'Password',
+        error: 'Password must be at least 8 characters',
         type: 'password',
         minlength: 8,
         required: true
     },
     {
         name: 'confirm_password',
-        label: 'Confirm Password',
+        error: 'Password must be at least 8 characters',
         type: 'password',
         minlength: 8,
         required: true
     }
 ];
-
 // wait for HTML to load
 var form = '';
 document.addEventListener('DOMContentLoaded', init);
@@ -77,11 +76,11 @@ function init() {
 }
 
 
-function handleSubmit(e) {
+async function handleSubmit(e) {
 
 
     e.preventDefault();
-
+    errors = false;
     fields.forEach(function (field) {
         const value = form.elements[field.name].value;
         var errorMessageText = form.querySelector(`.errorMessage[name="${field.name}"]`);
@@ -91,7 +90,11 @@ function handleSubmit(e) {
 
         if (field.required) {
             if (value.length === 0) {
-                errorMessageText.innerHTML = "Pole nie moze byc puste!";
+                errorMessageText.innerHTML = "This field cannot be empty!";
+                errors = true;
+            }
+            else if (field.minlength && value.length < field.minlength) {
+                errorMessageText.innerHTML = `Minimum length is ${field.minlength} characters.`;
                 errors = true;
             }
         }
@@ -100,7 +103,7 @@ function handleSubmit(e) {
             const reg = new RegExp(field.pattern);
             console.log(value);
             if (!reg.test(value)) {
-                errorMessageText.innerHTML = ('Dane zawierają niedozwolone znaki lub nie są zgodne z przyjętym wzorem.');
+                errorMessageText.innerHTML = field.error;
 
                 errors = true;
             }
@@ -114,7 +117,7 @@ function handleSubmit(e) {
 
     if (password !== confirmPassword) {
         const confirmPasswordError = form.querySelector('.errorMessage[name="confirm_password"]');
-        confirmPasswordError.innerHTML = 'Hasła muszą być takie same!';
+        confirmPasswordError.innerHTML = "Passwords must match!";
         errors = true;
     }
 

@@ -28,7 +28,7 @@
 
                             <input required type="password" name="<?php echo $attribute ?>"placeholder="click to enter">
                         <? else: ?>
-                            <input required type="text" name="<?php echo $attribute ?>"placeholder="click to enter">
+                            <input required type="text" name="<?php echo $attribute ?>" value ="<?php if (isset($_POST[$attribute])) { echo htmlspecialchars($_POST[$attribute]); } ?>" placeholder="click to enter">
                         <?php endif;?>
                 </div>
                     <span class='errorMessage' name = '<?php echo $attribute?>'>

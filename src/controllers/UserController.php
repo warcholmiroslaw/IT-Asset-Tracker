@@ -12,40 +12,41 @@ class UserController extends AppController
     public function signUp()
     {
         if ($this->isPost()) {
-
-            $response = [];
-
             $managerName = $_POST["manager"];
 
             $managerId = $this->userRepository->ifUserExists($managerName);
+            $uniqueUser = $this->userRepository->loginCheck($_POST['email']);
             if ($managerId) {
-                $_POST['manager'] = $managerId;
-                $uniqueUser = $this->userRepository->loginCheck($_POST['email']);
-
                 $_POST['account_type'] = 'user';
-                // if user doesn't exists add new user to database
-                if (!$uniqueUser) {
-
-                    $this->userRepository->createUser($_POST);
-                } else {
-                    $response['email'] = "User with this email already exists!";
-                }
-
-                $url = "http://$_SERVER[HTTP_HOST]";
-                header("Location: {$url}/login");
-                exit();
-            } else {
-                $response['manager'] = "This manager doesn't exist!";
-
-                $this->render('signUp', [
-                    "title" => "Sign Up",
-                    "user" => new Users(),
-                    "errors" => $response
-                ]);
             }
+            else {
+                $response['manager'] = "This manager doesn't exist!";
+            }
+
+            if (!$uniqueUser) {
+                if($managerId) {
+                    $_POST['manager'] = $managerId;
+                    $this->userRepository->createUser($_POST);
+                    $this->render('login', [
+                        "title" => "Login",
+                        "message" => "User created !"
+                    ]);
+                    exit();
+                }
+            }
+            else{
+                $response['email'] = "User with this email already exists!";
+            }
+
+            $this->render('signUp', [
+                "title" => "Sign Up",
+                "user" => new Users(),
+                "errors" => $response
+            ]);
             exit();
         }
 
+        // if get
         $this->render('signUp', [
             "title" => "Sign Up",
             "user" => new Users()

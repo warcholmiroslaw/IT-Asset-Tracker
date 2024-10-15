@@ -11,7 +11,8 @@ class SecurityController extends AppController {
     public function login() {
 
         if($this->isGet()) {
-            $this->render('login');
+            $this->render('login',
+                ["title" => 'login']);
             exit();
         }
 
@@ -24,7 +25,7 @@ class SecurityController extends AppController {
         if(empty($user)){
             $this->render('login',
                 ["title" => "Login",
-                "message" => "Nie ma takiego uzytkownika!"]);
+                "message" => "This user does not exist!"]);
             exit();
         }
         
@@ -34,7 +35,7 @@ class SecurityController extends AppController {
 
                 $this->render('login',
                 ["title" => "Login",
-                "message" => "Niepoprawne haslo!"]);
+                "message" => "incorrect password!"]);
                 exit();
             }
 
