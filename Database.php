@@ -45,30 +45,54 @@ class Database {
     }
 
     public function initDatabaseStructure(){
+        try {
+            $this->conn->beginTransaction();
 
+            $this->conn->exec("
+        CREATE TABLE IF NOT EXISTS public.equipment
+        (
+            id serial NOT NULL,
+            type character varying(100),
+            brand character varying(100),
+            model character varying(100),
+            serial_number character varying(100),
+            purchase_date date,
+            CONSTRAINT equipment_pkey PRIMARY KEY (id)
+        );
 
-        $this->conn->exec("CREATE TABLE IF NOT EXISTS public.equipment (
-                                    id integer NOT NULL,
-                                    type character varying(100),
-                                    brand character varying(100),
-                                    model character varying(100),
-                                    serial_number character varying(100),
-                                    purchase_date date
-                                );");
+        CREATE TABLE IF NOT EXISTS public.users
+        (
+            id serial NOT NULL,
+            name character varying(100) NOT NULL,
+            surname character varying(100) NOT NULL,
+            account_type account_type_enum NOT NULL,
+            job_title character varying(100),
+            department character varying(100),
+            manager integer,
+            email character varying(255) NOT NULL,
+            phone_number character varying(15),
+            password character varying(255) NOT NULL,
+            created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT users_pkey PRIMARY KEY (id),
+            CONSTRAINT users_email_key UNIQUE (email)
+        );
 
+        CREATE TABLE IF NOT EXISTS public.ownership
+        (
+            id serial NOT NULL,
+            equipment_id integer,
+            user_id integer,
+            assigned_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+            returned_at timestamp without time zone,
+            status character varying(50) NOT NULL,
+            CONSTRAINT ownership_pkey PRIMARY KEY (id)
+        );");
 
-
-
-
-        $this->conn->exec("CREATE TABLE IF NOT EXISTS public.ownership (
-                            id integer NOT NULL,
-                            equipment_id integer,
-                            user_id integer,
-                            assigned_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-                            returned_at timestamp without time zone,
-                            status character varying(50) NOT NULL
-                        );");
-
+            $this->conn->commit();
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            throw $e;
+        }
 
     }
 
