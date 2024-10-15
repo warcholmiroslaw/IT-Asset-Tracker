@@ -11,22 +11,10 @@ class UserController extends AppController
 
     public function signUp()
     {
-
-        $this->render('signUp', [
-            "title" => "Sign Up",
-            "user" => new Users()
-        ]);
-    }
-
-    public function addUser()
-    {
         if ($this->isPost()) {
 
-            header('Content-Type: application/json');
+            $response = [];
 
-            $response = array();
-//            var_dump($_POST);
-//            exit();
             $managerName = $_POST["manager"];
 
             $managerId = $this->userRepository->ifUserExists($managerName);
@@ -57,6 +45,12 @@ class UserController extends AppController
             }
             exit();
         }
+
+        $this->render('signUp', [
+            "title" => "Sign Up",
+            "user" => new Users()
+        ]);
+        exit();
     }
 
 }
